@@ -1,5 +1,3 @@
-This response draws exclusively upon the provided source material to address your queries, providing detailed explanations and citations.
-
 ***
 
 ### 1. Briefly Describe Terminology With Respect To First Order Logic. (10 marks)
