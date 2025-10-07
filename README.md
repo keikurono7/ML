@@ -150,4 +150,87 @@ The sources outline several potential representations:
 
 In the initial checkers design, a linear combination of six predefined board features ($x_1$ through $x_6$) was chosen as the representation. The function $\hat{V}(b)$ is calculated as a weighted sum: $\hat{V}(b) = w_0 + w_1 x_1 + \dots + w_6 x_6$.
 
+### 7. How Candidate-Elimination Algorithm Works, Explain with Algorithm Table (10 marks)
+
+The **CANDIDATE-ELIMINATION (CE) algorithm** is a concept learning method designed to overcome the limitations of algorithms like FIND-S. Instead of finding just one consistent hypothesis, the key idea of CE is to output a **description of the set of all hypotheses consistent** with the observed training examples.
+
+#### The Version Space Representation
+
+The set of all hypotheses consistent with the training examples $D$ and hypothesis space $H$ is called the **Version Space** ($VS_{H,D}$).
+
+$$VS_{H,D} = \{h \in H \mid \text{Consistent}(h, D)\}$$
+
+Instead of listing every consistent hypothesis (which may be computationally infeasible), CE uses a compact representation defined by its **most general boundary ($G$)** and its **most specific boundary ($S$)**:
+
+1.  **Specific Boundary ($S$):** The set of **maximally specific** members of $H$ that are consistent with $D$.
+2.  **General Boundary ($G$):** The set of **maximally general** members of $H$ that are consistent with $D$.
+
+The **Version Space Representation Theorem** states that the version space is precisely the set of hypotheses bounded by $G$ and $S$ in the general-to-specific partial order.
+
+#### The Algorithm and Operation
+
+The CE algorithm works incrementally, adjusting the $S$ and $G$ boundaries to maintain the invariant that the version space consists of exactly those hypotheses $h$ such that $g \ge_g h \ge_g s$ for some $g \in G$ and $s \in S$.
+
+**1. Initialization:**
+The algorithm begins by initializing $G$ to contain the most general hypothesis in $H$ (e.g., $(\text{?, ?, ?, ?, ?, ?})$ in the EnjoySport example) and $S$ to contain the most specific hypothesis in $H$ (e.g., $(\text{0, 0, 0, 0, 0, 0})$). These initial boundaries delimit the entire hypothesis space.
+
+**2. Incremental Refinement:**
+As each training example is processed, the boundaries are generalized or specialized to eliminate inconsistent hypotheses, causing $S$ and $G$ to converge monotonically closer to each other.
+
+*   **Positive Examples:** If a positive example is encountered, $S$ must be generalized minimally to cover the example, while $G$ members that fail to cover the positive example are removed.
+*   **Negative Examples:** If a negative example is encountered, $G$ must be specialized minimally so that it no longer covers the example, while $S$ members that incorrectly cover the negative example are removed.
+
+The algorithm's influence on the boundaries is dual: **positive training examples force the $S$ boundary to become more general, and negative training examples force the $G$ boundary to become more specific**.
+
+#### Algorithm Table: CANDIDATE-ELIMINATION using Version Spaces
+
+The algorithm iteratively refines the $S$ and $G$ boundary sets.
+
+| Procedure: CANDIDATE-ELIMINATION | Description |
+| :--- | :--- |
+| **1. Initialization** | Initialize $G$ to the set of maximally general hypotheses in $H$. Initialize $S$ to the set of maximally specific hypotheses in $H$. |
+| **2. Process Training Examples ($d$)** | **For each training example $d$:** |
+| **If $d$ is a positive example:** | Remove from $G$ any hypothesis inconsistent with $d$. |
+| | For each hypothesis $s$ in $S$ that is not consistent with $d$: |
+| | Remove $s$ from $S$. |
+| | Add to $S$ all minimal generalizations $h$ of $s$ such that $h$ is consistent with $d$, and some member of $G$ is more general than $h$. |
+| | Remove from $S$ any hypothesis that is more general than another hypothesis in $S$. |
+| **If $d$ is a negative example:** | Remove from $S$ any hypothesis inconsistent with $d$. |
+| | For each hypothesis $g$ in $G$ that is not consistent with $d$: |
+| | Remove $g$ from $G$. |
+| | Add to $G$ all minimal specializations $h$ of $g$ such that $h$ is consistent with $d$, and some member of $S$ is more specific than $h$. |
+| | Remove from $G$ any hypothesis that is less general than another hypothesis in $G$. |
+
+The algorithm converges when $S$ and $G$ converge to a single, identical hypothesis, or when the version space becomes empty, indicating either inconsistent training data or that the target concept is not expressible in $H$.
+
+***
+
+### 8. Explain About Concept Learning as Search (10 marks)
+
+**Concept learning** involves inferring a boolean-valued function (the target concept $c$) from a set of training examples (input and output pairs). This process is effectively structured as a **search problem**.
+
+#### The Search Space
+
+Concept learning is viewed as searching through a **large space of hypotheses** ($H$) implicitly defined by the chosen representation. The goal of this search is to find the hypothesis $h \in H$ that best fits the training examples $D$.
+
+*   **Defining $H$:** The set of all possible hypotheses that the learning program can represent and learn is implicitly defined by the human designer's choice of hypothesis representation (e.g., conjunctions of constraints, linear functions, decision trees). If the hypothesis space is restricted (e.g., to conjunctive constraints), the learning process is biased, potentially simplifying the search but risking that the true target concept is not expressible.
+*   **Scale of Search:** Even in simple problems, the hypothesis space can be vast. For instance, the EnjoySport example, despite its simplicity, involves 973 semantically distinct hypotheses within the conjunctive space. Practical tasks often involve much larger, sometimes infinite, hypothesis spaces.
+
+#### Organization via Partial Ordering
+
+Many successful concept learning algorithms organize the search by exploiting an inherent structure within the hypothesis space: the **general-to-specific ordering of hypotheses** ($\ge_g$ relation).
+
+The ordering is defined such that hypothesis $h_j$ is **more-general-than-or-equal-to** hypothesis $h_k$ ($h_j \ge_g h_k$) if every instance that satisfies $h_k$ also satisfies $h_j$. This ordering creates a partial order structure, meaning not all hypotheses are comparable.
+
+By leveraging this structure, learning algorithms can perform efficient searches, sometimes exhaustively traversing even infinite hypothesis spaces without explicitly enumerating every hypothesis.
+
+#### Examples of Search Strategies
+
+Different concept learning algorithms define specific search strategies through this space:
+
+1.  **Specific-to-General Search (FIND-S):** The FIND-S algorithm initiates the search with the **most specific possible hypothesis** in $H$. It then incrementally generalizes this hypothesis only as far as necessary to cover observed **positive** training examples, moving along a single chain in the partial ordering from specific hypotheses toward more general ones.
+2.  **Boundary Search (CANDIDATE-ELIMINATION):** This algorithm maintains two boundary sets ($S$ and $G$) that define the space of all hypotheses consistent with the data. The search proceeds by tightening these boundaries—$S$ moving toward generality and $G$ moving toward specificity—until the correct hypothesis (or a set of equally consistent hypotheses) is isolated.
+
+In summary, machine learning algorithms operate as search methods, leveraging the underlying structure of the predefined hypothesis space (often the general-to-specific ordering) to find the function that best satisfies the constraints imposed by the limited training data.
+
 The choice to use such a simple linear function constrains the learning problem to finding optimal values for the seven weights ($w_0$ through $w_6$). While simplifying the learning task, this representation might be too simple to capture the nuances of a complex game like checkers, meaning the learner might not be able to beat a human world champion. A more sophisticated representation, like an ANN that considers the complete board state (as used successfully in the TD-GAMMON backgammon program), often yields better performance but requires complex learning algorithms and vast data.
