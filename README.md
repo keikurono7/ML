@@ -74,7 +74,7 @@ The concept learning problem can be viewed as searching through a space of poten
 
 For example, in the EnjoySport task, consider $h_1 = (\text{Sunny, ?, ?, Strong, ?, ?})$ and $h_2 = (\text{Sunny, ?, ?, ?, ?, ?})$. Since $h_2$ imposes fewer constraints than $h_1$, any instance satisfied by $h_1$ is also satisfied by $h_2$. Therefore, $h_2$ is more general than $h_1$.
 
-#### Diagram Description (Conceptual Diagram: Figure 2.1)
+[General to Specific Ordering of Hypothesis](image.png)
 
 A "Neat Diagram" illustrating this concept would contain two main components:
 
