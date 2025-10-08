@@ -57,7 +57,7 @@ The model of network security (illustrated conceptually below, based on Figure 1
 
 A **trusted third party** may also be necessary to achieve secure transmission, such as an entity responsible for securely distributing the secret information.
 
-!()[image.png]
+!(img)[image.png]
 
 #### Model for Network Security (Conceptual Diagram Description)
 
