@@ -81,7 +81,7 @@ To use this model effectively, four tasks must be addressed:
 
 ***
 
-### 3. Explain Hill cipher algorithm. Using Hill cipher perform encryption and decryption. For Plain Text: “Pay more money” using key = $\begin{vmatrix} 17 & 17 & 5 \\ 21 & 18 & 21 \\ 2 & 2 & 19 \end{vmatrix}$ (10 marks)
+### 3. Explain Hill cipher algorithm. Using Hill cipher perform encryption and decryption. For Plain Text: “Pay more money” using key = $\begin{bmatrix}17 &17 & 5\\21 & 18 & 21\\2 & 2 & 19 \end{bmatrix}$ (10 marks)
 
 #### Hill Cipher Algorithm Explanation
 The **Hill cipher** is a multiletter cipher developed by Lester Hill in 1929. It is a substitution cipher that encrypts multiple letters simultaneously, operating on blocks of letters.
