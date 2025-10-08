@@ -227,6 +227,7 @@ Plaintext: C R Y P T O G R P H Y X
 
 Symmetric encryption (also known as conventional encryption or single-key encryption) uses the same secret key shared by the sender and recipient for both encryption and decryption.
 
+![](3.1.png)
 **Five Ingredients (Referencing Figure 3.1):**
 
 1.  **Plaintext (X):** The original, intelligible message or data fed into the algorithm as input.
@@ -240,7 +241,7 @@ Symmetric encryption (also known as conventional encryption or single-key encryp
 1.  **Strong Encryption Algorithm:** The algorithm must be strong enough that an opponent who knows the algorithm and has access to ciphertexts cannot decipher the ciphertext or figure out the key. Ideally, the opponent should fail even if possessing known plaintext-ciphertext pairs.
 2.  **Secure Secret Key Management:** The sender and receiver must securely obtain copies of the secret key and maintain its secrecy. If the key is discovered, all communication using that key is compromised.
 
-![](Screenshot_2025-10-08_194019.png)
+![](3.2.png)
 
 #### Model of Symmetric Cryptosystem (Figure 3.2)
 
@@ -259,6 +260,7 @@ This model elaborates on the entities involved in the process:
 #### What is Cryptography?
 **Cryptography** is the field of study encompassing the numerous schemes used for **enciphering** or **encryption**—the process of converting an original message (plaintext) into a coded message (ciphertext). A specific scheme is known as a cryptographic system or a cipher.
 
+![](3.2.png)
 #### Model of a Symmetric Cryptosystem (Figure 3.2 Description)
 
 The symmetric cryptosystem model depicts the necessary components for securing communication where both parties share a single secret key $K$.
