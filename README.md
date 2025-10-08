@@ -1,4 +1,4 @@
-<img width="600" height="310" alt="image" src="https://github.com/user-attachments/assets/46f51730-7a30-495a-b83e-dd03c50a35a9" />### 1. Explain classical encryption techniques & with each example. (10 marks)
+### 1. Explain classical encryption techniques & with each example. (10 marks)
 
 Classical encryption techniques generally fall into two categories: **substitution** (where plaintext elements are replaced by others) and **transposition** (where plaintext elements are rearranged). The fundamental requirement is that all operations are reversible, meaning no information is lost.
 
