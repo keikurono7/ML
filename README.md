@@ -240,6 +240,8 @@ Symmetric encryption (also known as conventional encryption or single-key encryp
 1.  **Strong Encryption Algorithm:** The algorithm must be strong enough that an opponent who knows the algorithm and has access to ciphertexts cannot decipher the ciphertext or figure out the key. Ideally, the opponent should fail even if possessing known plaintext-ciphertext pairs.
 2.  **Secure Secret Key Management:** The sender and receiver must securely obtain copies of the secret key and maintain its secrecy. If the key is discovered, all communication using that key is compromised.
 
+![](Screenshot_2025-10-08_194019.png)
+
 #### Model of Symmetric Cryptosystem (Figure 3.2)
 
 This model elaborates on the entities involved in the process:
