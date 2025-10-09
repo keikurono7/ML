@@ -4,7 +4,7 @@ Traditional data storage and management systems refer to **Relational Database M
 
 ---
 
-## 🗂️ 1. Relational Database Management Systems (RDBMS)
+### 🗂️ 1. Relational Database Management Systems (RDBMS)
 
 ### **Definition**
 RDBMS store data in **tables** (rows and columns) and use **Structured Query Language (SQL)** to manage and retrieve data.
