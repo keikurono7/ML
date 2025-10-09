@@ -169,21 +169,11 @@ MPP platforms are the backbone of **Big Data analytics**, allowing for the **sim
 | **Analytics Scalability** | Ability to process and analyze growing data volumes efficiently using distributed and cloud-based frameworks. | Hadoop, Spark, AWS EMR |
 | **Massively Parallel Processing (MPP)** | Architecture that uses multiple processors working in parallel to handle huge datasets simultaneously. | Redshift, BigQuery, Teradata, Spark |
 
----
 
-### **Conclusion**
-Big Data analytics relies heavily on **scalability** and **parallel processing**.  
-Scalable analytics ensures smooth handling of data growth, while MPP platforms make it possible to analyze massive datasets in real-time with high efficiency.  
-Together, they form the foundation of modern **Big Data infrastructure**.
 
 ---
 
-# 3. What is Big Data Analytics? Explain the Classification of Analytics
-
----
-
-## ❓ Question:
-**What is Big Data analytics? Explain the classification of analytics (Descriptive, Diagnostic, Predictive, Prescriptive).**
+# 3. What is Big Data analytics? Explain the classification of analytics (Descriptive, Diagnostic, Predictive, Prescriptive).
 
 ---
 
@@ -328,27 +318,13 @@ IBM Watson, Apache Spark, MATLAB, Python (AI/ML libraries).
 | **Predictive** | Forecast future outcomes | “What could happen?” | Predicting customer churn |
 | **Prescriptive** | Recommend future actions | “What should we do?” | Suggesting optimal pricing strategy |
 
----
 
-## 🧠 Conclusion
-
-**Big Data Analytics** empowers organizations to transform raw data into actionable insights.  
-By combining **descriptive, diagnostic, predictive, and prescriptive analytics**, businesses can:  
-- Understand their past,  
-- Diagnose issues,  
-- Anticipate future trends, and  
-- Make intelligent, data-driven decisions for growth and innovation.
 
 ---
 
 
 
 # 4. Define Big Data. Explain Its Classification and Key Characteristics
-
----
-
-## ❓ Question:
-**Define Big Data. Explain its classification and key characteristics.**
 
 ---
 
@@ -478,22 +454,9 @@ The concept of **Big Data** is best understood through its **key characteristics
 
 ---
 
-## 🧠 Conclusion
-
-**Big Data** represents the vast and complex data generated every second from numerous digital sources.  
-It can be **structured, unstructured, or semi-structured**, and is characterized by its **Volume, Velocity, Variety, Veracity, and Value**.  
-
-To process such massive and diverse data, organizations rely on **Big Data technologies** like **Hadoop, Spark, and NoSQL**, enabling them to gain valuable insights for **better decision-making, innovation, and business growth**.
-
----
 
 
-# 5. Discuss the Evolution of Big Data and Highlight Why Traditional BI is Insufficient
-
----
-
-## ❓ Question:
-**Discuss the evolution of Big Data and highlight why traditional Business Intelligence (BI) is insufficient.**
+# 5. Discuss the evolution of Big Data and highlight why traditional Business Intelligence (BI) is insufficient.
 
 ---
 
@@ -559,11 +522,6 @@ Traditional **Business Intelligence (BI)** tools were designed for structured, s
 
 ---
 
-## ❓ Question:
-**Compare Traditional Business Intelligence (BI) vs Big Data Analytics with suitable examples.**
-
----
-
 ## 📊 Comparison Between Traditional BI and Big Data Analytics
 
 | **Aspect** | **Traditional Business Intelligence (BI)** | **Big Data Analytics** |
@@ -614,11 +572,6 @@ while **Big Data Analytics** enables the analysis of **massive, diverse, and rea
 
 
 # 7. Explain Hadoop Ecosystem. Illustrate with Example the Core Components and Features of Hadoop
-
----
-
-## ❓ Question:
-**Explain the Hadoop ecosystem. Illustrate with example the core components and features of Hadoop.**
 
 ---
 
@@ -745,11 +698,6 @@ A retail company wants to analyze customer purchasing data (over 10 TB) to under
 
 
 # 8. Explain the Process of Data Processing with Hadoop Using MapReduce
-
----
-
-## ❓ Question:
-**Explain the process of data processing with Hadoop using MapReduce.**
 
 ---
 
@@ -914,12 +862,7 @@ Product_101  15230 Product_202  18455 Product_303  9320
 
 ---
 
-# 9. HDFS Commands to Perform Basic Operations
-
----
-
-## ❓ Question:
-**Give HDFS commands to perform the following operations:**  
+# 9. Give HDFS commands to perform the following operations:
 a) List directories and files at the root of HDFS  
 b) Create a directory “sample” in HDFS  
 c) Copy a file from the local filesystem to HDFS  
