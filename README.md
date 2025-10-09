@@ -1,721 +1,1208 @@
-### 1. Explain classical encryption techniques & with each example. (10 marks)
+# Explain the traditional systems used in data storage and management.
 
-Classical encryption techniques generally fall into two categories: **substitution** (where plaintext elements are replaced by others) and **transposition** (where plaintext elements are rearranged). The fundamental requirement is that all operations are reversible, meaning no information is lost.
+Traditional data storage and management systems refer to **Relational Database Management Systems (RDBMS)** and **Data Warehouses**. These systems were the foundation for data handling before the rise of Big Data technologies like Hadoop and NoSQL.
 
-#### a) Caesar cipher
-The **Caesar cipher** is the earliest known and simplest substitution cipher. It involves replacing each letter of the alphabet with the letter standing a fixed number of places further down the alphabet (traditionally three places).
+---
 
-*   **Algorithm:** For a plaintext letter $p$, the ciphertext letter $C$ is found using a shift key $k$: $C = E(k, p) = (p + k) \mod 26$. The key $k$ is typically a value between 1 and 25.
-*   **Decryption:** The decryption is simply the inverse: $p = D(k, C) = (C - k) \mod 26$.
-*   **Example:** If the key $k=3$ is used: Plaintext 'a' (0) is substituted for 'D' (3), 'b' (1) for 'E' (4), and so on.
-*   **Security:** This cipher is highly vulnerable to brute-force cryptanalysis because there are only 25 possible keys to try.
+## 🗂️ 1. Relational Database Management Systems (RDBMS)
 
-#### b) Monoalphabetic cipher
-A **monoalphabetic substitution cipher** uses a single fixed cipher alphabet (a specific mapping from the plain alphabet to the cipher alphabet) throughout the entire message.
+### **Definition**
+RDBMS store data in **tables** (rows and columns) and use **Structured Query Language (SQL)** to manage and retrieve data.
 
-*   **Example:** Instead of fixing the shift like the Caesar cipher, the cipher alphabet can be any permutation of the 26 alphabetic characters.
-    *   *Plain:* a b c d e f g h i j k l m n o p q r s t u v w x y z
-    *   *Cipher:* C R Y P T O A B D E F G H I J K L M N Q S U V W X Z (Example using keyword CRYPTO).
-*   **Key Space:** If any permutation is allowed, the key space is $26!$, or greater than $4 \times 10^{26}$ possible keys, making brute-force attack impractical.
-*   **Vulnerability:** Despite the large key space, it is relatively easy to break if the plaintext language is known (e.g., noncompressed English text), as the **regularities of the language** (like letter frequencies) can be exploited through frequency analysis.
+### **Key Features**
+- Data is stored in a **structured format**.  
+- Supports **SQL** for operations like `INSERT`, `UPDATE`, `DELETE`, and `SELECT`.  
+- Maintains relationships through **primary** and **foreign keys**.  
+- Ensures **ACID** properties:
+  - **A**tomicity  
+  - **C**onsistency  
+  - **I**solation  
+  - **D**urability  
 
-#### c) Playfair cipher
-The **Playfair cipher** is the best-known multiple-letter encryption technique, treating pairs of letters (digrams) in the plaintext as single units and translating them into ciphertext digrams.
+### **Advantages**
+- Ensures **data integrity** and **consistency**.  
+- Suitable for **complex queries** and **transactional systems**.  
+- Well-suited for **OLAP (Online Analytical Processing)** on structured data.
 
-*   **Mechanism:** It is based on a $5 \times 5$ matrix constructed using a keyword. The letters I and J count as one letter.
-*   **Rules for Encryption:** Plaintext letters are encrypted two at a time based on their position in the matrix:
-    1.  **Repeating Letters:** If letters in a pair are the same (e.g., 'LL' in balloon), a filler letter (like 'X') must separate them (e.g., 'BA LX LO ON').
-    2.  **Same Row:** Each letter is replaced by the letter immediately to its right (circularly).
-    3.  **Same Column:** Each letter is replaced by the letter immediately beneath it (circularly).
-    4.  **Otherwise (Rectangle):** Each letter is replaced by the letter lying in its own row and the column occupied by the other plaintext letter.
-*   **Strength:** It is an advance over simple monoalphabetic ciphers because it hides individual letter frequencies by mapping 676 possible digrams.
+### **Limitations**
+- Not efficient with **unstructured** or **semi-structured data**.  
+- **Vertically scalable** — scaling requires better hardware.  
+- Not designed for **large-scale distributed systems**.
 
-#### d) Polyalphabetic cipher
-A **polyalphabetic substitution cipher** improves security by using different monoalphabetic substitution rules as the encryption proceeds through the plaintext message.
+### **Examples**
+- Oracle  
+- MySQL  
+- PostgreSQL  
+- MS-SQL Server  
 
-*   **Common Features:**
-    1.  A set of related monoalphabetic substitution rules are used (e.g., the 26 Caesar ciphers).
-    2.  A key determines which specific rule is chosen for each transformation.
-*   **Example: Vigenère Cipher:** In this scheme, a repeating **keyword** is used to determine the shift for each plaintext letter. If the keyword length is $m$, the key letters $k_0, k_1, \dots, k_{m-1}$ repeat cyclically.
-    *   **Formula:** $C_i = (p_i + k_{i \mod m}) \mod 26$.
-*   **Strength:** The strength lies in the fact that there are multiple ciphertext letters for each plaintext letter, obscuring letter frequency information.
+---
 
-***
+## 🏢 2. Data Warehouses
 
-### 2. Explain a model of network security with neat diagram of network security model. (10 marks)
+### **Definition**
+A **data warehouse** is a centralized repository designed to store and manage **historical, structured data** from multiple sources for analysis and reporting.
 
-The general model for network security focuses on two parties, typically referred to as the principals, communicating over an unreliable or vulnerable information channel. The goal is to achieve secure communication between the two parties.
+### **Key Features**
+- Supports **data consolidation, analysis, and reporting**.  
+- Uses **ETL (Extract, Transform, Load)** processes to move and clean data.  
+- Stores data in **multidimensional cubes** for analysis.  
+- Enables **business intelligence (BI)** and decision-making.
 
-#### Model Components and Process
+### **Advantages**
+- Efficient for **trend analysis** and **business insights**.  
+- Integrates data from various sources for better reporting.  
+- Handles large **historical datasets** effectively.
 
-The model of network security (illustrated conceptually below, based on Figure 1.5 in the source) relies on four basic ingredients:
+### **Limitations**
+- Not suitable for **real-time processing**.  
+- Cannot handle **unstructured or semi-structured data** (e.g., videos, logs).  
+- **High cost** of maintenance and storage infrastructure.
 
-1.  **Sender and Receiver:** The two principals who wish to exchange information.
-2.  **Information Channel:** The unsecured path (e.g., a network connection) over which messages are sent.
-3.  **Security-related Transformation:** A mathematical operation applied to the information before transmission. Examples include **encryption** (scrambling the message to make it unreadable) or the addition of a **code** used to verify the sender's identity.
-4.  **Secret Information:** Knowledge shared by the two principals, such as an encryption key, used in conjunction with the transformation.
+### **Examples**
+- Teradata  
+- IBM DB2 Warehouse  
+- Amazon Redshift  
 
-A **trusted third party** may also be necessary to achieve secure transmission, such as an entity responsible for securely distributing the secret information.
+---
 
-![](image.png)
+## ⚖️ Comparison: Traditional vs Big Data Systems
 
-#### Model for Network Security (Conceptual Diagram Description)
+| **Aspect** | **Traditional Systems (RDBMS & Data Warehouse)** | **Big Data Systems (Hadoop, NoSQL)** |
+|-------------|---------------------------------------------------|--------------------------------------|
+| **Data Type** | Structured only | Structured, Semi-structured, Unstructured |
+| **Scalability** | Vertical (better hardware) | Horizontal (add more machines) |
+| **Processing** | Centralized | Distributed |
+| **Cost** | High | Low (commodity hardware) |
+| **Real-time Data** | Not supported | Supported |
+| **Examples** | Oracle, MySQL, Teradata | Hadoop, MongoDB, Cassandra |
 
-The model depicts the flow from plaintext to secure transmission and back:
+---
 
-| Component | Description |
-| :--- | :--- |
-| **Sender** | Takes the **Message** (M) and the **Secret Information** (K). |
-| **Security-related Transformation** | A mathematical process (e.g., Encryption $E(K, M)$) transforms the Message M using the Secret Information K. |
-| **Secure Message** | The output of the transformation (e.g., Ciphertext C) is sent over the Information Channel. |
-| **Receiver** | Takes the **Secure Message** (C) and the shared **Secret Information** (K). |
-| **Reverse Security-related Transformation** | The decryption process $D(K, C)$ restores the original **Message** (M). |
+## 🧠 Summary
 
-#### Tasks for Achieving Secure Communication
+Traditional systems like **RDBMS** and **Data Warehouses** were effective for managing structured, organized data and generating reports.  
+However, they are **limited in scalability and flexibility** when handling the **massive, diverse, and real-time data** of the modern world.  
+This led to the development of **Big Data technologies** such as **Hadoop** and **NoSQL**, which offer **distributed processing** and **cost-effective scalability**.
 
-To use this model effectively, four tasks must be addressed:
-1.  **Algorithm Design:** Design a strong algorithm for performing the security-related transformation that an opponent cannot defeat.
-2.  **Key Generation:** Generate the secret information (key) to be used with the algorithm.
-3.  **Key Distribution:** Develop secure methods for the distribution and sharing of the secret information.
-4.  **Protocol Specification:** Specify a protocol utilized by the two principals that makes use of the security algorithm and the secret information to achieve a required security service.
+---
 
-***
 
-### 3. Explain Hill cipher algorithm. Using Hill cipher perform encryption and decryption. For Plain Text: “Pay more money” using key = $\begin{bmatrix}17 &17 & 5\\21 & 18 & 21\\2 & 2 & 19 \end{bmatrix}$ (10 marks)
 
-#### Hill Cipher Algorithm Explanation
-The **Hill cipher** is a multiletter cipher developed by Lester Hill in 1929. It is a substitution cipher that encrypts multiple letters simultaneously, operating on blocks of letters.
 
-1.  **Representation:** Plaintext and ciphertext are represented as vectors of numbers, where each letter corresponds to a number (a=0, b=1, ..., z=25).
-2.  **Encryption Matrix:** Encryption uses a predetermined $m \times m$ matrix $K$ (the key). The arithmetic is performed modulo 26.
-3.  **Encryption Process:** A plaintext block $P$ (of length $m$) is multiplied by the key matrix $K$ to produce the ciphertext block $C$:
-    $$C = E(K, P) = PK \mod 26$$
-4.  **Decryption Process:** Decryption requires the inverse of the matrix $K$, denoted $K^{-1}$. For decryption to be possible, the determinant of $K$ must be relatively prime to 26 (i.e., $\gcd(\text{det } K, 26) = 1$).
-    $$P = D(K, C) = CK^{-1} \mod 26$$
+# 2. With respect to Big Data Concepts explain the following 
 
-The strength of the Hill cipher lies in its ability to **completely hide single-letter frequencies**. The use of a larger matrix hides even more frequency information (e.g., a $3 \times 3$ matrix hides single-letter and two-letter frequency information).
+## a) Analytics Scalability to Big Data
 
-#### Encryption and Decryption Example
+### **Definition**
+Analytics scalability refers to the ability of a data analysis system or tool to **handle increasing volumes, varieties, and velocities of data** efficiently as the data size grows.
 
-The source explicitly uses the plaintext "paymoremoney" and the provided key matrix $K$ for demonstration.
+In the context of **Big Data**, scalability ensures that analytical processes remain **fast, accurate, and cost-effective**, even when dealing with **massive and complex datasets** that exceed the capacity of traditional systems.
 
-**Given:**
-*   Plain Text: "Pay more money" (Ignoring spaces/punctuation for block encryption: PAYMOREMONEY)
-*   Key $K$: $\begin{vmatrix} 17 & 17 & 5 \\ 21 & 18 & 21 \\ 2 & 2 & 19 \end{vmatrix}$
-*   Alphabet conversion: A=0, B=1, ..., Z=25.
-
-**1. Encryption (First block: PAY)**
-P A Y $\rightarrow$ (15, 0, 24).
-$C = (15, 0, 24) \begin{vmatrix} 17 & 17 & 5 \\ 21 & 18 & 21 \\ 2 & 2 & 19 \end{vmatrix} \mod 26$
-$C = ( (15\cdot17 + 0\cdot21 + 24\cdot2), (15\cdot17 + 0\cdot18 + 24\cdot2), (15\cdot5 + 0\cdot21 + 24\cdot19) ) \mod 26$
-$C = ( 255 + 48, 255 + 48, 75 + 456 ) \mod 26$
-$C = ( 303, 303, 531 ) \mod 26$
-
-*   $303 \mod 26 = 11$ (303 = 11 * 26 + 17) $\rightarrow 17$
-*   $531 \mod 26 = 11$ (531 = 20 * 26 + 11) $\rightarrow 11$
-$C = (17, 17, 11)$.
-$17, 17, 11 \rightarrow$ R, R, L. **First Ciphertext Block: RRL**.
-
-**2. Full Encryption Result (from source):**
-Continuing in this fashion, the plaintext "paymoremoney" encrypts to the ciphertext **RRLMWBKASPDH**.
-
-**3. Decryption (First block: RRL)**
-Decryption requires the inverse matrix $K^{-1}$.
-The determinant of $K$ is $\text{det } K = 23$, and $(\text{det } K)^{-1} \mod 26 = 17$.
-The inverse matrix is computed as:
-$$K^{-1} = \begin{vmatrix} 4 & 9 & 15 \\ 15 & 17 & 6 \\ 24 & 0 & 17 \end{vmatrix}$$
-We apply $K^{-1}$ to the first ciphertext block RRL $\rightarrow$ (17, 17, 11):
-$P = (17, 17, 11) K^{-1} \mod 26$
-$P = ( (17\cdot4 + 17\cdot15 + 11\cdot24), (17\cdot9 + 17\cdot17 + 11\cdot0), (17\cdot15 + 17\cdot6 + 11\cdot17) ) \mod 26$
-$P = ( (68 + 255 + 264), (153 + 289 + 0), (255 + 102 + 187) ) \mod 26$
-$P = ( 587, 442, 544 ) \mod 26$
-
-*   $587 \mod 26 = 15$ (587 = 22 * 26 + 15) $\rightarrow 15$
-*   $442 \mod 26 = 0$ (442 = 17 * 26 + 0) $\rightarrow 0$
-*   $544 \mod 26 = 24$ (544 = 20 * 26 + 24) $\rightarrow 24$
-$P = (15, 0, 24)$
-$15, 0, 24 \rightarrow$ P, A, Y. **Plaintext Recovered: PAY**.
-
-***
-
-### 4. Write note on: (10 marks)
-
-#### a. Cryptography
-Cryptography refers to the schemes used for **enciphering** or **encryption** (converting plaintext to ciphertext). Cryptographic systems are often categorized along three dimensions:
-1.  **Type of Operations:** Based on substitution (mapping elements) and transposition (rearranging elements). Many systems are **product systems**, involving multiple stages of both.
-2.  **Number of Keys:** **Symmetric** (single-key or conventional) uses the same key for sender and receiver; **Asymmetric** (two-key or public-key) uses different keys.
-3.  **Processing Method:** **Block ciphers** process input in fixed blocks; **stream ciphers** process input continuously, one element at a time.
+### **Key Points**
+- Big Data is characterized by **Volume, Variety, and Velocity** (the 3Vs).  
+- Traditional analytics tools fail to scale effectively when data becomes too large or diverse.  
+- Scalable analytics systems use **distributed computing** and **parallel processing** to handle growth in data.
 
-#### b. Steganography
-Steganography is a method of hiding a message by **concealing the existence** of the message itself, in contrast to cryptography, which renders the message unintelligible.
+### **Techniques for Scalability**
+1. **Distributed Storage**  
+   Data is split and stored across multiple nodes using systems like **HDFS (Hadoop Distributed File System)**.
 
-*   **Mechanism:** Historically, techniques included invisible ink, pin punctures in characters, or character markings. A simple form involves arranging words or letters within an apparently harmless text to spell out the real message (e.g., using the first letter of each word).
-*   **Drawbacks:** Steganography is often time-consuming to construct. More critically, the mere act of using steganography can flag the sender or receiver as having something to hide.
-
-#### c. One time pad with example.
-The **one-time pad (OTP)** is a polyalphabetic cipher that uses a nonrepeating keyword (or key stream) that is **as long as the message itself**. It employs a stream of random numbers/bits as the key.
+2. **Parallel Processing**  
+   Tasks are divided into smaller chunks and processed simultaneously by different machines.
 
-*   **Security:** The OTP is the *only* cryptosystem known to achieve **perfect secrecy** and is thus considered **unconditionally secure**. This means the ciphertext generated does not contain enough information to uniquely determine the corresponding plaintext, regardless of how much time an opponent has.
-*   **Drawbacks:** The key must be genuinely random, must be as long as the message, and must be securely distributed and never reused. These logistical problems make widespread use impractical, often limiting it to low-bandwidth channels requiring very high security.
-*   **Example (Conceptual):** If a ciphertext can be decrypted using two different keys to produce two equally plausible plaintexts (e.g., "mr mustard with the candlestick in the hall" versus "miss scarlet with the knife in the library"), the cryptanalyst cannot decide which is correct, illustrating perfect secrecy.
+3. **Elastic Scalability**  
+   Cloud computing enables resources to scale **up or down dynamically** based on data load (e.g., AWS, Google Cloud, Azure).
 
-#### d. Vernam cipher with example.
-The **Vernam cipher** is the binary implementation of the one-time pad.
+4. **Use of Big Data Frameworks**  
+   Frameworks like **Hadoop**, **Spark**, and **MapReduce** are designed to scale analytics efficiently over large data clusters.
 
-*   **Mechanism:** It operates on binary digits. The ciphertext bit $c_i$ is generated by performing a bitwise **exclusive-OR (XOR)** of the plaintext bit $p_i$ and the key bit $k_i$:
-    $$c_i = p_i \oplus k_i$$
-*   **Decryption:** Decryption uses the exact same XOR operation:
-    $$p_i = c_i \oplus k_i$$
-*   **Requirement:** Like the OTP, the key must be a sequence of random binary digits that is never reused and is as long as the plaintext sequence.
-*   **Example:** If the plaintext bit is 1 and the key bit is 0, the ciphertext is 1. To decrypt, $1 \oplus 0 = 1$ (plaintext recovered). The mechanism is mathematically identical to the OTP, exhibiting perfect secrecy if the key is truly random and non-repeating.
+### **Benefits**
+- Handles **large-scale data growth** without performance degradation.  
+- Enables **real-time analytics** on massive datasets.  
+- Improves **cost efficiency** through distributed resources.  
+- Supports **complex analytics** like predictive modeling and machine learning.
 
-***
+---
 
-### 5. Explain Playfair cipher and apply its rule for the following keyword = “MONARCHY” Plain text = “CRYPTOGRPHY” to get the CT. (10 marks)
+## b) Massively Parallel Processing (MPP) Platforms
 
-#### Playfair Cipher Explanation
-The Playfair cipher is a **multiple-letter encryption cipher** invented by Sir Charles Wheatstone (though named for Lord Playfair). It encrypts pairs of plaintext letters (digrams) into ciphertext digrams.
+### **Definition**
+Massively Parallel Processing (MPP)** refers to a computing architecture where **many processors (or computers)** work on **different parts of a program simultaneously** to complete a task faster.
 
-**Construction:**
-1.  A $5 \times 5$ matrix is created using the letters of a keyword (minus duplicates).
-2.  The remaining letters of the alphabet fill the rest of the matrix.
-3.  The letters I and J are treated as a single unit.
+MPP platforms are the backbone of **Big Data analytics**, allowing for the **simultaneous execution of thousands of tasks** across multiple servers.
 
-**Key Matrix (Keyword = MONARCHY):**
-| M | O | N | A | R |
-| :--- | :--- | :--- | :--- | :--- |
-| C | H | Y | B | D |
-| E | F | G | I/J | K |
-| L | P | Q | S | T |
-| U | V | W | X | Z |
+### **Key Features**
+- Each processor has its **own memory and operating system**.  
+- Data is divided among processors — each works **independently** on its subset of data.  
+- A **coordinator node** combines results from all processors into the final output.
 
-#### Applying Rules for Plain Text = “CRYPTOGRPHY”
+### **Working Principle**
+1. Large datasets are **partitioned** into smaller subsets.  
+2. Each subset is assigned to a **separate node** in the cluster.  
+3. All nodes process their data **concurrently**.  
+4. Results are aggregated to produce the final analytical outcome.
 
-**1. Prepare Plaintext:**
-The plaintext is grouped into digrams. Since the length is 11, we must add a filler letter (e.g., X) to the final partial pair. We also check for repeating letters in a pair (none exist).
-Plaintext: C R Y P T O G R P H Y X
+### **Examples of MPP Platforms**
+- **Hadoop MapReduce** – Processes massive datasets using parallel nodes.  
+- **Apache Spark** – In-memory processing engine faster than MapReduce.  
+- **Amazon Redshift** – Cloud-based MPP data warehouse.  
+- **Google BigQuery** – Serverless, MPP analytics platform.  
+- **Teradata** – Enterprise data warehouse with MPP architecture.
 
-**2. Encryption (Applying Rules 2, 3, or 4):**
+### **Advantages**
+- **High Performance:** Processes terabytes or petabytes of data efficiently.  
+- **Scalability:** Easily add more nodes to handle larger workloads.  
+- **Fault Tolerance:** Failure of one node doesn’t crash the system.  
+- **Cost-Effective:** Uses commodity hardware instead of expensive servers.
 
-| Digram | Coordinates | Rule | Ciphertext |
-| :--- | :--- | :--- | :--- |
-| CR | C(2, 1), R(1, 5) | Rectangle | C $\to$ R(1, 1), R $\to$ C(2, 5) $\rightarrow$ **RC** |
-| YP | Y(2, 3), P(4, 2) | Rectangle | Y $\to$ P(2, 2), P $\to$ Y(4, 3) $\rightarrow$ **HQ** |
-| TO | T(4, 5), O(1, 2) | Rectangle | T $\to$ P(4, 2), O $\to$ R(1, 5) $\rightarrow$ **PR** |
-| GR | G(3, 3), R(1, 5) | Rectangle | G $\to$ K(3, 5), R $\to$ N(1, 3) $\rightarrow$ **KN** |
-| PH | P(4, 2), H(2, 2) | Same Column | P $\to$ V (5, 2), H $\to$ F (3, 2) $\rightarrow$ **VF** |
-| YX | Y(2, 3), X(5, 4) | Rectangle | Y $\to$ B(2, 4), X $\to$ W(5, 3) $\rightarrow$ **BW** |
+### **Use Cases**
+- Large-scale **data mining** and **machine learning**.  
+- **Real-time analytics** on streaming data.  
+- **Business intelligence** and **data warehousing** solutions.  
 
-*(Note: Applying the rule for CR: C is in Row 2, Col 1. R is in Row 1, Col 5. The ciphertext for C is in Row 2, Col 5 (D). The ciphertext for R is in Row 1, Col 1 (M). Thus CR $\to$ DM. My derivation differs slightly from the conceptual RC, demonstrating the complexity of manual application, but following the stated rules strictly yields:*
+---
 
-| Digram | Coordinates | Rule | Ciphertext |
-| :--- | :--- | :--- | :--- |
-| CR | C(2, 1), R(1, 5) | Rectangle | C $\to$ D (2, 5), R $\to$ M (1, 1) $\rightarrow$ **DM** |
-| YP | Y(2, 3), P(4, 2) | Rectangle | Y $\to$ B (2, 2), P $\to$ Q (4, 3) $\rightarrow$ **BQ** |
-| TO | T(4, 5), O(1, 2) | Rectangle | T $\to$ R (4, 2), O $\to$ R (1, 5) $\rightarrow$ **PR** |
-| GR | G(3, 3), R(1, 5) | Rectangle | G $\to$ K (3, 5), R $\to$ N (1, 3) $\rightarrow$ **KN** |
-| PH | P(4, 2), H(2, 2) | Same Column | P $\to$ V (5, 2), H $\to$ F (3, 2) $\rightarrow$ **VF** |
-| YX | Y(2, 3), X(5, 4) | Rectangle | Y $\to$ B (2, 4), X $\to$ W (5, 3) $\rightarrow$ **BW** |
+## 🧠 Summary
 
-**Ciphertext (CT):** **DMBQ PRKN VFBW**
+| Concept | Description | Example Tools |
+|----------|--------------|----------------|
+| **Analytics Scalability** | Ability to process and analyze growing data volumes efficiently using distributed and cloud-based frameworks. | Hadoop, Spark, AWS EMR |
+| **Massively Parallel Processing (MPP)** | Architecture that uses multiple processors working in parallel to handle huge datasets simultaneously. | Redshift, BigQuery, Teradata, Spark |
 
-***
+---
 
-### 6. Explain symmetric cipher model with five ingredients and two requirements. Also explain model symmetric cryptosystem. (10 marks)
+### **Conclusion**
+Big Data analytics relies heavily on **scalability** and **parallel processing**.  
+Scalable analytics ensures smooth handling of data growth, while MPP platforms make it possible to analyze massive datasets in real-time with high efficiency.  
+Together, they form the foundation of modern **Big Data infrastructure**.
 
-#### Symmetric Cipher Model (Simplified Model)
+---
 
-Symmetric encryption (also known as conventional encryption or single-key encryption) uses the same secret key shared by the sender and recipient for both encryption and decryption.
+# 3. What is Big Data Analytics? Explain the Classification of Analytics
 
-![](3.1.png)
-**Five Ingredients (Referencing Figure 3.1):**
+---
 
-1.  **Plaintext (X):** The original, intelligible message or data fed into the algorithm as input.
-2.  **Encryption Algorithm (E):** Performs various reversible substitutions and transformations on the plaintext. The exact steps depend on the secret key used.
-3.  **Secret Key (K):** A value independent of the plaintext and the algorithm. This key controls the specific output generated by the algorithm.
-4.  **Ciphertext (Y):** The scrambled, unintelligible output message. It is a function of the plaintext and the secret key, $Y = E(K, X)$.
-5.  **Decryption Algorithm (D):** Essentially the reverse of the encryption algorithm, which uses the ciphertext and the same secret key to recover the original plaintext, $X = D(K, Y)$.
+## ❓ Question:
+**What is Big Data analytics? Explain the classification of analytics (Descriptive, Diagnostic, Predictive, Prescriptive).**
 
-**Two Requirements for Secure Use:**
+---
 
-1.  **Strong Encryption Algorithm:** The algorithm must be strong enough that an opponent who knows the algorithm and has access to ciphertexts cannot decipher the ciphertext or figure out the key. Ideally, the opponent should fail even if possessing known plaintext-ciphertext pairs.
-2.  **Secure Secret Key Management:** The sender and receiver must securely obtain copies of the secret key and maintain its secrecy. If the key is discovered, all communication using that key is compromised.
+## 📘 What is Big Data Analytics?
 
-![](3.2.png)
+### **Definition**
+**Big Data Analytics** is the process of **examining large and complex data sets** (both structured and unstructured) to **discover hidden patterns, unknown correlations, market trends, customer preferences, and useful business insights**.
 
-#### Model of Symmetric Cryptosystem (Figure 3.2)
+It involves the use of **advanced analytics techniques**, such as **statistical analysis**, **data mining**, **machine learning**, and **predictive modeling**, to analyze massive volumes of data generated from various sources like social media, sensors, transactions, and more.
 
-This model elaborates on the entities involved in the process:
-*   A **Message Source** produces plaintext $X$.
-*   A **Key Source** generates the key $K$ and delivers it to both the sender (Encryption Algorithm) and the receiver (Decryption Algorithm) via a **secure channel**.
-*   The sender uses $K$ to produce the ciphertext $Y$.
-*   The ciphertext $Y$ is transmitted over a potentially insecure channel.
-*   An **Opponent/Cryptanalyst** observes $Y$ (and knows the algorithms $E$ and $D$) and attempts to recover $X$ or $K$.
-*   The destination uses $K$ to successfully decrypt $Y$ and recover $X$.
+### **Key Features**
+- Deals with **high volume**, **high velocity**, and **variety** of data (the 3Vs of Big Data).  
+- Helps organizations in **data-driven decision-making**.  
+- Uses **modern tools** like Hadoop, Spark, and NoSQL databases.  
+- Enables **real-time** and **batch processing** for insights.
 
-***
+### **Importance**
+1. Enhances **business decision-making**.  
+2. Improves **customer experience and retention**.  
+3. Detects **fraudulent activities** and **risks**.  
+4. Promotes **innovation** and **product development**.  
+5. Provides a **competitive advantage** through data-driven insights.
 
-### 7. What is cryptography. Draw the model of a symmetric cryptosystem and explain it. (10 marks)
+---
 
-#### What is Cryptography?
-**Cryptography** is the field of study encompassing the numerous schemes used for **enciphering** or **encryption**—the process of converting an original message (plaintext) into a coded message (ciphertext). A specific scheme is known as a cryptographic system or a cipher.
+## 🧩 Classification of Analytics
 
-![](3.2.png)
-#### Model of a Symmetric Cryptosystem (Figure 3.2 Description)
+Analytics in Big Data can be categorized into **four major types** based on their purpose and complexity:
 
-The symmetric cryptosystem model depicts the necessary components for securing communication where both parties share a single secret key $K$.
+---
 
-1.  **Message Flow:** The **Message Source** generates the plaintext message $X$. This message is input, along with the secret key $K$, into the **Encryption Algorithm**.
-2.  **Encryption:** The algorithm produces the ciphertext $Y = E(K, X)$. This ciphertext is then transmitted over an unsecured channel.
-3.  **Key Distribution:** The **Secret Key $K$** must be delivered from a key source to both the sender and the intended receiver through a **secure channel**.
-4.  **Decryption:** The **Destination** receives the ciphertext $Y$ and inputs it, along with the shared secret key $K$, into the **Decryption Algorithm** to recover the original plaintext $X = D(K, Y)$.
-5.  **Threat Model:** A **Cryptanalyst** or opponent observes the ciphertext $Y$ but does not have access to the secret key $K$ or the original plaintext $X$. The opponent knows the encryption/decryption algorithms and attempts to recover the plaintext $X$ or the key $K$.
+### 🔹 1. Descriptive Analytics
 
-***
+**Definition:**  
+Descriptive analytics focuses on **understanding past data** to identify patterns, trends, and relationships.
 
-### 8. List and explain the block cipher design principles. (10 marks)
+**Objective:**  
+Answers the question — **“What has happened?”**
 
-The cryptographic strength of modern block ciphers often derives from the Feistel cipher structure, but specific design choices regarding its parameters are crucial.
+**Techniques Used:**  
+- Data aggregation  
+- Data summarization  
+- Data visualization (charts, dashboards)
 
-The block cipher design principles focus on three critical aspects:
+**Example:**  
+- Generating monthly sales reports.  
+- Analyzing website traffic statistics.  
 
-#### 1. Number of Rounds
-The strength of the cipher is highly dependent on the number of rounds utilized.
+**Tools:**  
+Tableau, Power BI, Excel, SQL.
 
-*   **Principle:** The greater the number of rounds, the more difficult it is to perform cryptanalysis, even if the round function ($F$) is relatively weak.
-*   **Criterion:** The number of rounds chosen should ensure that it is computationally impractical to recover the plaintext or the key, even given vast amounts of known ciphertext. It ensures **complete diffusion and confusion** is achieved throughout the cipher.
+**Advantages:**  
+- Provides a clear understanding of historical performance.  
+- Helps identify key performance indicators (KPIs).
 
-#### 2. Design of Function F (Round Function)
-The round function $F$ is designed to maximize the complexity of the relationship between the input/output and the key material. This relies heavily on Shannon's concepts of confusion and diffusion.
+---
 
-*   **Confusion:** Seeks to make the relationship between the ciphertext and the value of the encryption key as complex as possible. This thwarts attempts to deduce the key based on ciphertext statistics, usually achieved through complex substitution algorithms.
-*   **Diffusion:** Seeks to dissipate the statistical structure of the plaintext across the resulting ciphertext. This is achieved by ensuring that each plaintext bit affects many ciphertext bits, generally through repeated permutations and substitutions.
-*   **Avalanche Effect Criteria:** An ideal function $F$ should meet specific criteria for the avalanche effect:
-    *   **Strict Avalanche Criterion (SAC):** A minor change in the input (one bit change) should result in a 50% change in the output bits.
-    *   **Bit Independence Criterion (BIC):** Any pair of output bits should change independently when a single input bit is inverted.
+### 🔹 2. Diagnostic Analytics
 
-#### 3. Key Schedule Algorithm (Subkey Generation)
-The key schedule algorithm generates the subkeys ($K_i$) used in each round from the main secret key $K$.
+**Definition:**  
+Diagnostic analytics digs deeper into data to **find the causes of past events or outcomes**.
 
-*   **Principle:** This algorithm must produce subkeys that ensure the complexity introduced by the function $F$ remains effective across all rounds. A complex key schedule algorithm aids in achieving **confusion**.
+**Objective:**  
+Answers the question — **“Why did it happen?”**
 
-***
+**Techniques Used:**  
+- Data discovery and correlation analysis  
+- Root cause analysis  
+- Drill-down and data mining
 
-### 9. Explain Playfair Cipher and its rules for the following Ex: Keyword: “Computer” Plaintext: “parrot” (10 marks)
+**Example:**  
+- Understanding why sales dropped in a particular month.  
+- Identifying reasons for system failures or customer churn.
 
-#### Playfair Cipher Explanation
-(See Q1.c and Q5 for detailed explanation)
+**Tools:**  
+R, Python (Pandas, NumPy), Power BI, SQL.
 
-#### Application: Keyword = “Computer”, Plaintext = “parrot”
+**Advantages:**  
+- Helps businesses understand key influencing factors.  
+- Enables corrective actions and process improvements.
 
-**1. Construct the $5 \times 5$ Matrix (Keyword: COMPUTER)**
-The letters I/J are treated as one. The keyword letters (excluding duplicates) are placed first, followed by the remaining alphabet (excluding J, or I/J):
-C O M P U
-T E R A B
-D F G H I/J K
-L N Q S V
-W X Y Z
+---
 
-**2. Prepare Plaintext: “parrot”**
-The plaintext must be grouped into pairs (digrams). Since the second and third letters are identical ('R R'), a filler letter (X) must be inserted to separate them.
-Plaintext Pairs: P A | R X | R O | T X (Assuming X added to fill the last block)
+### 🔹 3. Predictive Analytics
 
-**3. Encryption (Applying Rules):**
+**Definition:**  
+Predictive analytics uses **statistical models, machine learning, and algorithms** to forecast future outcomes based on historical data.
 
-| Digram | Coordinates | Rule | Ciphertext |
-| :--- | :--- | :--- | :--- |
-| **PA** | P(1, 4), A(2, 4) | Same Column | P $\to$ T (2, 4), A $\to$ B (3, 4) $\rightarrow$ **TB** |
-| **RX** | R(2, 3), X(5, 2) | Rectangle | R $\to$ E (2, 2), X $\to$ V (5, 3) $\rightarrow$ **EV** |
-| **RO** | R(2, 3), O(1, 2) | Rectangle | R $\to$ M (2, 2), O $\to$ P (1, 3) $\rightarrow$ **MP** |
-| **TX** | T(2, 1), X(5, 2) | Rectangle | T $\to$ X (2, 2), X $\to$ U (5, 1) $\rightarrow$ **EU** |
+**Objective:**  
+Answers the question — **“What could happen?”**
 
-**Ciphertext (CT):** **TB EV MP EU**
+**Techniques Used:**  
+- Regression analysis  
+- Forecasting models  
+- Machine learning algorithms
 
-***
+**Example:**  
+- Predicting customer purchase behavior.  
+- Forecasting stock market trends or product demand.
 
-### 10. Explain Playfair cipher Solve - Keyword: MONARCHY Plain text: ATTACK (10 marks)
+**Tools:**  
+Python (Scikit-learn), R, SAS, IBM SPSS Modeler.
 
-#### Playfair Cipher Explanation
-(See Q1.c and Q5 for detailed explanation)
+**Advantages:**  
+- Improves decision-making through data-driven forecasting.  
+- Helps reduce business risks.
 
-#### Application: Keyword = MONARCHY, Plain text = ATTACK
+---
 
-**1. Construct the $5 \times 5$ Matrix (Keyword: MONARCHY)**
-| M | O | N | A | R |
-| :--- | :--- | :--- | :--- | :--- |
-| C | H | Y | B | D |
-| E | F | G | I/J | K |
-| L | P | Q | S | T |
-| U | V | W | X | Z |
+### 🔹 4. Prescriptive Analytics
 
-**2. Prepare Plaintext: “ATTACK”**
-Plaintext Pairs: A T | T A | C K. No repeating letters in pairs, and the length is even.
+**Definition:**  
+Prescriptive analytics goes a step further by recommending **specific actions or strategies** based on predictions and data insights.
 
-**3. Encryption (Applying Rules):**
+**Objective:**  
+Answers the question — **“What should we do?”**
 
-| Digram | Coordinates | Rule | Ciphertext |
-| :--- | :--- | :--- | :--- |
-| **AT** | A(1, 4), T(4, 5) | Rectangle | A $\to$ R (1, 5), T $\to$ S (4, 4) $\rightarrow$ **RS** |
-| **TA** | T(4, 5), A(1, 4) | Rectangle | T $\to$ S (4, 4), A $\to$ R (1, 5) $\rightarrow$ **SR** |
-| **CK** | C(2, 1), K(3, 5) | Rectangle | C $\to$ E (2, 5), K $\to$ D (3, 1) $\rightarrow$ **ED** |
+**Techniques Used:**  
+- Optimization algorithms  
+- Simulation and machine learning models  
+- Decision analysis
 
-*(Note on CK calculation: C is in R2, C1. K is in R3, C5. C is replaced by the letter in R2, C5 (D). K is replaced by the letter in R3, C1 (E). Thus, CK $\to$ DE.)*
+**Example:**  
+- Suggesting the best marketing strategy to increase sales.  
+- Recommending personalized product offers for customers.
 
-**Ciphertext (CT):** **RS SR DE**
+**Tools:**  
+IBM Watson, Apache Spark, MATLAB, Python (AI/ML libraries).
 
-This response addresses your queries by drawing exclusively on the provided sources and citing them appropriately.
+**Advantages:**  
+- Helps organizations take proactive decisions.  
+- Optimizes resources and operations for better outcomes.
 
-***
+---
 
-### 11. Use shift of 5 right to encrypt the message & write the final code in 4 letter blocks. (10 marks)
-Plain text: “Meet at the bank at eight AM”
+## 📊 Summary Table
 
-This task uses the **Caesar Cipher**, a type of substitution technique. Encryption is achieved by substituting each plaintext letter $p$ with a ciphertext letter $C$ that is shifted $k$ positions down the alphabet, where $C = (p + k) \mod 26$.
+| **Type of Analytics** | **Objective** | **Question Answered** | **Example** |
+|------------------------|----------------|------------------------|--------------|
+| **Descriptive** | Understand past events | “What happened?” | Monthly sales reports |
+| **Diagnostic** | Find reasons for outcomes | “Why did it happen?” | Root cause of low sales |
+| **Predictive** | Forecast future outcomes | “What could happen?” | Predicting customer churn |
+| **Prescriptive** | Recommend future actions | “What should we do?” | Suggesting optimal pricing strategy |
 
-**1. Define Key and Plaintext:**
-The shift is $k=5$.
-Plaintext (removing spaces/punctuation and mapping to numbers A=0, ..., Z=25):
-M E E T A T T H E B A N K A T E I G H T A M
-(12 4 4 19 0 19 19 7 4 1 0 13 10 0 19 4 8 6 7 19 0 12)
+---
 
-**2. Apply Encryption ($p+5 \mod 26$):**
+## 🧠 Conclusion
 
-| P | Value (p) | p + 5 | Result $\mod 26$ | C |
-| :--- | :--- | :--- | :--- | :--- |
-| M | 12 | 17 | 17 | R |
-| E | 4 | 9 | 9 | J |
-| E | 4 | 9 | 9 | J |
-| T | 19 | 24 | 24 | Y |
-| A | 0 | 5 | 5 | F |
-| T | 19 | 24 | 24 | Y |
-| T | 19 | 24 | 24 | Y |
-| H | 7 | 12 | 12 | M |
-| E | 4 | 9 | 9 | J |
-| B | 1 | 6 | 6 | G |
-| A | 0 | 5 | 5 | F |
-| N | 13 | 18 | 18 | S |
-| K | 10 | 15 | 15 | P |
-| A | 0 | 5 | 5 | F |
-| T | 19 | 24 | 24 | Y |
-| E | 4 | 9 | 9 | J |
-| I | 8 | 13 | 13 | N |
-| G | 6 | 11 | 11 | L |
-| H | 7 | 12 | 12 | M |
-| T | 19 | 24 | 24 | Y |
-| A | 0 | 5 | 5 | F |
-| M | 12 | 17 | 17 | R |
+**Big Data Analytics** empowers organizations to transform raw data into actionable insights.  
+By combining **descriptive, diagnostic, predictive, and prescriptive analytics**, businesses can:  
+- Understand their past,  
+- Diagnose issues,  
+- Anticipate future trends, and  
+- Make intelligent, data-driven decisions for growth and innovation.
 
-**3. Final Code in 4-Letter Blocks:**
-The ciphertext is **RJJY F Y Y M J G F S P F Y J N L M Y F R**. The message has 22 characters. To write the final code in blocks of four letters, two filler characters (e.g., Z) are typically added to complete the last block.
+---
 
-Ciphertext: RJJY FY YM J G F S P F Y J N L M Y F R Z Z
 
-**Final 4-Letter Blocks: RJJY FY YM J G F S P F Y J N L M Y F R Z Z**
 
-***
+# 4. Define Big Data. Explain Its Classification and Key Characteristics
 
-### 12. Explain Diffie-Hellman algorithms with example. (10 marks)
+---
 
-The **Diffie-Hellman (DH) key exchange** algorithm was the first published public-key algorithm, designed to allow two users to establish a shared secret key for subsequent symmetric encryption. It is limited to the exchange of secret values and does not itself encrypt messages.
+## ❓ Question:
+**Define Big Data. Explain its classification and key characteristics.**
 
-#### Principle
-The security of DH relies on the difficulty of computing **discrete logarithms**. If we have $b \equiv \alpha^i \pmod p$, it is easy to calculate $b$ given $i, \alpha, p$, but hard to determine the exponent $i$ (the discrete logarithm) given $b, \alpha, p$.
+---
 
-#### The Algorithm (Figure 10.1)
-The system requires global public elements: a large prime number $q$ and an integer $\alpha$ (a primitive root of $q$).
+## 📘 Definition of Big Data
 
-| Step | User A (Alice) | User B (Bob) |
-| :--- | :--- | :--- |
-| **1. Key Generation** | Selects private key $X_A < q$. | Selects private key $X_B < q$. |
-| **2. Public Key Calculation** | Calculates public key $Y_A = \alpha^{X_A} \mod q$. | Calculates public key $Y_B = \alpha^{X_B} \mod q$. |
-| **3. Exchange** | Sends $Y_A$ to Bob. | Sends $Y_B$ to Alice. |
-| **4. Secret Key Calculation** | Calculates shared secret key $K = (Y_B)^{X_A} \mod q$. | Calculates shared secret key $K = (Y_A)^{X_B} \mod q$. |
+According to **Gartner**,  
+> “Big Data is high-volume, high-velocity, and high-variety information assets that demand cost-effective, innovative forms of information processing for enhanced insight and decision-making.”
 
-The results are identical because:
-$K = (Y_B)^{X_A} \mod q = (\alpha^{X_B})^{X_A} \mod q = \alpha^{X_A X_B} \mod q$.
+In simple terms, **Big Data** refers to large and complex datasets that **cannot be processed using traditional data processing systems** like RDBMS.  
+These datasets grow **exponentially with time** and require advanced technologies for **storage, analysis, and visualization**.
 
-#### Example
-Let the global parameters be small for demonstration purposes:
-*   Prime modulus $q = 353$.
-*   Primitive root $\alpha = 3$.
+---
 
-1.  **Alice’s Selection:** Chooses private key $X_A = 97$.
-    *   Alice calculates public key: $Y_A = 3^{97} \mod 353 = 40$.
-2.  **Bob’s Selection:** Chooses private key $X_B = 233$.
-    *   Bob calculates public key: $Y_B = 3^{233} \mod 353 = 248$.
-3.  **Key Exchange:** Alice and Bob exchange $Y_A$ (40) and $Y_B$ (248).
-4.  **Shared Secret Key Calculation (K):**
-    *   Alice computes: $K = (Y_B)^{X_A} \mod 353 = 248^{97} \mod 353 = 160$.
-    *   Bob computes: $K = (Y_A)^{X_B} \mod 353 = 40^{233} \mod 353 = 160$.
+## 🧩 Classification of Big Data
 
-The shared secret key $K = 160$ is successfully established, which can then be used as a session key for symmetric encryption.
+Big Data can be classified into **three main types** based on the structure and organization of the data:
 
-***
+---
 
-### 13. Explain different ways of distributing Public keys. (10 marks)
+### 🔹 1. Structured Data
 
-Public-key cryptography depends on users having access to the public keys of other parties. There are four general approaches for distributing public keys:
+**Definition:**  
+Structured data is data that is **highly organized and stored in a fixed format** such as tables, rows, and columns.
 
-#### 1. Public Announcement
-The user (e.g., Alice) simply broadcasts or publishes her public key in a public forum (e.g., in a newspaper, email header, or corporate directory).
-*   **Drawback:** This method is highly vulnerable to forgery. An opponent (Darth) can create a key pair, claim the public key $PU_D$ belongs to Alice, and publish it. Users relying on this fake key will send confidential messages to Darth, who can decrypt them and potentially masquerade as Alice.
+**Examples:**
+- Data in relational databases (e.g., SQL tables)
+- Employee records (ID, Name, Salary)
+- Bank transactions
 
-#### 2. Publicly Available Directory
-A central authority (trusted by all users) maintains a dynamic directory containing a list of names and their associated public keys.
-*   **Process:** Users register securely with the directory. The authority creates the entry and distributes the directory securely. The directory service must be trusted regarding the integrity of the public keys.
-*   **Drawback:** If an opponent subverts the authority or directory, they can insert a false public key for a user (e.g., $PU_D$ for $PU_A$). All traffic intended for Alice could then be diverted and read by Darth.
+**Characteristics:**
+- Easy to store, search, and analyze  
+- Stored in relational databases using SQL  
+- Has a clear schema and relationships between entities  
 
-#### 3. Public-Key Authority (PKA)
-This approach uses a central authority to validate keys dynamically, providing tighter control over distribution than a static directory.
-*   **Process (Five Steps):** If Alice wants Bob’s public key ($PU_B$):
-    1. Alice requests $PU_B$ from the PKA.
-    2. The PKA sends $PU_B$ back, along with the original request, all encrypted using the PKA’s private key ($PR_{auth}$).
-    3. Alice uses the PKA’s public key ($PU_{auth}$) to decrypt the message, verifying the key’s authenticity and freshness.
-    4. Alice encrypts a nonce $N_1$ with $PU_B$ and sends it to Bob.
-    5. Bob returns $N_1$ encrypted with $PU_A$, confirming possession of $PR_B$.
-*   **Security:** This method prevents an opponent from impersonating the authority or substituting keys, assuming the PKA’s key is known and trusted.
+**Example Table:**
+| Employee ID | Name     | Department | Salary |
+|--------------|----------|-------------|---------|
+| 101 | John Doe | HR | 50,000 |
+| 102 | Alice | IT | 70,000 |
 
-#### 4. Public-Key Certificates (Preferred Method)
-Certificates bind an identity to a public key by having a trusted Certification Authority (CA) digitally sign the information.
-*   **Process:** A certificate contains a user’s public key, the user's ID, and is signed by the CA using $PR_{CA}$.
-*   **Advantage:** Any user can verify the certificate's authenticity by using the CA's readily available public key ($PU_{CA}$). Once verified, the user is confident that the bound public key belongs to the claimed owner, minimizing the need for the PKA to be constantly consulted. X.509 is the most widely accepted standard for public-key certificates.
+---
 
-***
+### 🔹 2. Unstructured Data
 
-### 14. Demonstrate Public key Encryption And Decryption with an example (10 marks)
+**Definition:**  
+Unstructured data has **no predefined format or structure**, making it difficult to process and analyze using traditional methods.
 
-We will use the **RSA algorithm** to demonstrate public key encryption and decryption. RSA is based on the mathematical difficulty of factoring large numbers.
+**Examples:**
+- Emails  
+- Videos, Images, Audio Files  
+- Social media posts, comments, and messages  
+- Sensor or log data  
 
-#### 1. Key Generation (Alice)
-Alice selects the required parameters to create her public key $PU=\{e, n\}$ and private key $PR=\{d, n\}$. We use a simplified example derived from the source material for clarity:
+**Characteristics:**
+- Highly variable in format and size  
+- Requires specialized tools for processing (e.g., Hadoop, Spark, NoSQL)  
+- Represents the **majority of Big Data** today  
 
-1.  **Select two prime numbers:** $p=3$ and $q=7$.
-2.  **Calculate the modulus $n$ (Public):** $n = p \times q = 3 \times 7 = 21$.
-3.  **Calculate $\phi(n)$ (Euler Totient Function):** $\phi(n) = (p-1)(q-1) = (3-1)(7-1) = 2 \times 6 = 12$.
-4.  **Select the public exponent $e$ (Public):** Choose $e=5$. Must satisfy $\gcd(\phi(n), e) = \gcd(12, 5) = 1$.
-5.  **Calculate the private exponent $d$ (Private):** $d$ must satisfy $d \times e \equiv 1 \pmod{\phi(n)}$.
-    $5d \equiv 1 \pmod{12}$. The inverse is $d=5$ (since $5 \times 5 = 25 \equiv 1 \pmod{12}$).
+---
 
-*   **Public Key $PU$: $\{5, 21\}$**
-*   **Private Key $PR$: $\{5, 21\}$**
+### 🔹 3. Semi-Structured Data
 
-#### 2. Encryption (Bob)
-Bob wants to send the message $M=10$ to Alice, where $M < n$. He uses Alice's public key $PU=\{5, 21\}$.
-The ciphertext $C$ is calculated as $C = M^e \mod n$.
+**Definition:**  
+Semi-structured data is a mix of both structured and unstructured formats. It **does not reside in a traditional database**, but it contains **tags or markers** that separate data elements.
 
-$$C = 10^5 \mod 21$$
+**Examples:**
+- XML files  
+- JSON documents  
+- Web data and log files  
 
-We can simplify the exponentiation:
-$$10^2 \equiv 100 \equiv 16 \pmod{21}$$
-$$10^4 \equiv 16^2 = 256 \equiv 4 \pmod{21}$$
-$$C = 10^5 = 10^4 \times 10^1 \equiv 4 \times 10 = 40 \equiv 19 \pmod{21}$$
+**Characteristics:**
+- Has some organizational structure  
+- Easier to analyze than unstructured data  
+- Used frequently in web applications and APIs  
 
-*   **Ciphertext $C$: 19**
+---
 
-#### 3. Decryption (Alice)
-Alice receives $C=19$ and uses her private key $PR=\{5, 21\}$.
-The plaintext $M$ is recovered as $M = C^d \mod n$.
+## ⚙️ Key Characteristics of Big Data (The 3Vs + More)
 
-$$M = 19^5 \mod 21$$
+The concept of **Big Data** is best understood through its **key characteristics**, commonly known as the **“V’s of Big Data.”**
 
-Since $19 \equiv -2 \pmod{21}$:
-$$M \equiv (-2)^5 = -32 \pmod{21}$$
-$$M \equiv 10 \pmod{21}$$
+---
 
-*   **Plaintext Recovered $M$: 10**
+### 🔸 1. Volume
+- Refers to the **amount of data** generated from multiple sources like social media, sensors, devices, etc.  
+- Data sizes are often in **terabytes, petabytes, or exabytes**.  
+- Example: Facebook generates **over 4 petabytes of data per day**.
 
-***
+---
 
-### 15. Explain symmetric key distribution using symmetric encryption (10 marks)
+### 🔸 2. Velocity
+- Refers to the **speed at which data is generated, collected, and processed**.  
+- Modern systems need to handle **real-time or near-real-time data** streams.  
+- Example: Stock trading systems and IoT sensors generate continuous data streams.
 
-Symmetric (or conventional) encryption requires that a secret key $K$ be securely shared between two parties (A and B) before they can communicate securely. In a network with $N$ users, providing every pair with a unique secret key requires $N(N-1)/2$ master keys, which is impractical for large networks.
+---
 
-#### Key Hierarchy and KDC
-This problem is solved using a hierarchy of keys managed by a **Key Distribution Center (KDC)**:
-1.  **Master Key ($K_A, K_B$):** A long-term key shared only between an individual user (A or B) and the KDC. This key is used *only* for transferring session keys.
-2.  **Session Key ($K_s$):** A temporary key used by A and B to encrypt their actual data during a single communication session.
+### 🔸 3. Variety
+- Refers to the **different types and formats of data** collected.  
+- Includes structured, semi-structured, and unstructured data.  
+- Example: Text, images, videos, audio, and logs.
 
-#### KDC Protocol (Figure 14.3)
-When A wants to establish a session key $K_s$ with B:
+---
 
-1.  **A requests $K_s$ from KDC:** A sends a message containing $ID_A$, $ID_B$, and a unique **nonce ($N_1$)** to the KDC. The nonce ensures the freshness and timeliness of the KDC's response.
-2.  **KDC processes and responds:** The KDC generates a session key $K_s$ for the A-B pair. The KDC sends a response message containing two main parts, both encrypted using different keys:
-    *   **Message for A (Encrypted with $K_A$):** This part contains $K_s$, $ID_B$, the nonce $N_1$, and a timestamp $T$. The nonce $N_1$ assures A the message is fresh.
-    *   **Ticket for B (Encrypted with $K_B$):** This part contains $K_s$, $ID_A$, and the timestamp $T$. This encrypted ticket ($T_B$) is passed to A.
-3.  **A forwards the ticket:** A decrypts its portion to obtain $K_s$. A then sends $T_B$ (the ticket encrypted for B) and a fresh authenticator (like $ID_A$ and a timestamp, both encrypted with $K_s$) to B.
-4.  **B extracts $K_s$:** B decrypts $T_B$ using its master key $K_B$ to extract $K_s$. B then uses $K_s$ to decrypt the authenticator and verify that the message is genuinely from A and is timely.
+### 🔸 4. Veracity (Optional 4th V)
+- Refers to the **trustworthiness and accuracy** of data.  
+- Big Data can be noisy, incomplete, or inconsistent.  
+- Data cleaning and validation are critical to ensure quality.
 
-$K_s$ is thus securely established between A and B, protected during distribution solely by the long-term master keys $K_A$ and $K_B$.
+---
 
-***
+### 🔸 5. Value (Optional 5th V)
+- Refers to the **usefulness or insights** extracted from Big Data.  
+- The true goal of Big Data analytics is to **derive business value** from raw data.
 
-### 16. Explain symmetric key distribution using asymmetric encryption. (10 marks)
+---
 
-Public-key (asymmetric) cryptography is computationally intensive, making it impractical for encrypting large amounts of user data. Its primary utility in key management is securely transferring a small symmetric session key $K_s$, which is then used for bulk data encryption.
+## 📊 Summary Table
 
-#### 1. Simple Key Distribution (Vulnerability)
-A simple scheme involves user A generating a public key $PU_A$ and sending it to B. B generates a session key $K_s$ and encrypts it with $PU_A$, sending $E(PU_A, K_s)$ back to A. A decrypts using $PR_A$ to get $K_s$.
-*   **Drawback:** This is vulnerable to the **man-in-the-middle attack** (Darth), who substitutes $PU_D$ for $PU_A$. Darth intercepts $E(PU_D, K_s)$ intended for A, decrypts it using $PR_D$ to learn $K_s$, re-encrypts $K_s$ using $PU_A$ (which D knows), and forwards $E(PU_A, K_s)$ to A. Both A and B believe they are communicating securely, unaware that D controls the session key.
+| **Characteristic** | **Description** | **Example** |
+|--------------------|-----------------|--------------|
+| **Volume** | The amount of data generated | Petabytes of Facebook data |
+| **Velocity** | The speed of data generation and processing | Real-time sensor data |
+| **Variety** | The diversity of data types | Text, video, audio |
+| **Veracity** | The accuracy and reliability of data | Removing duplicate records |
+| **Value** | The insights derived from data | Predicting customer trends |
 
-#### 2. Secret Key Distribution with Confidentiality and Authentication (Needham-Schroeder Scheme)
-A robust scheme requires that the public keys ($PU_A$ and $PU_B$) be known and trusted by both parties beforehand (e.g., distributed via certificates). This protocol ensures mutual authentication and key confidentiality.
+---
 
-| Step | Message Sent | Purpose |
-| :--- | :--- | :--- |
-| **1.** | $A \to B: E(PU_B, [ID_A, N_1])$ | A sends B a message encrypted with $PU_B$ for confidentiality. $N_1$ is a nonce. |
-| **2.** | $B \to A: E(PU_A, [N_1, N_2])$ | B returns $N_1$, encrypted with $PU_A$. The presence of $N_1$ proves B successfully decrypted message 1 (authentication). |
-| **3.** | $A \to B: E(PU_B, N_2)$ | A returns $N_2$ encrypted with $PU_B$, assuring B that A decrypted message 2 (mutual authentication). |
-| **4. Key Transfer** | $A \to B: M = E(PU_B, E(PR_A, K_s))$ | A selects $K_s$. Outer encryption ($PU_B$) provides **confidentiality** (only B can read it). Inner encryption ($PR_A$) provides a **digital signature/authentication** (only A could have sent it). |
-| **5. Key Recovery** | $B$ computes $D(PU_A, D(PR_B, M))$ | B performs decryption in reverse order to recover the symmetric session key $K_s$. |
+## 🧠 Conclusion
 
-This approach successfully distributes $K_s$ while protecting against both passive and active attacks, provided the long-term public keys are authenticated.
+**Big Data** represents the vast and complex data generated every second from numerous digital sources.  
+It can be **structured, unstructured, or semi-structured**, and is characterized by its **Volume, Velocity, Variety, Veracity, and Value**.  
 
-***
+To process such massive and diverse data, organizations rely on **Big Data technologies** like **Hadoop, Spark, and NoSQL**, enabling them to gain valuable insights for **better decision-making, innovation, and business growth**.
 
-### 17. Demonstrate elliptic curve cryptography algorithm to show how it can be used to encrypt and generate a cipherpoint. (10 marks)
+---
 
-**Elliptic Curve Cryptography (ECC)** performs addition and multiplication operations using points on an elliptic curve, rather than modular exponentiation. ECC encryption uses the difficulty of solving the elliptic curve discrete logarithm problem (finding $k$ given $Q = kP$).
 
-#### ECC Encryption Algorithm
-The message $P_m$ must first be encoded as a point on the elliptic curve $E_q(a, b)$. The sender (Alice) needs the recipient's (Bob's) public key $P_B = n_B G$, where $n_B$ is Bob's private key and $G$ is a shared base point.
+# 5. Discuss the Evolution of Big Data and Highlight Why Traditional BI is Insufficient
 
-To encrypt $P_m$ for Bob, Alice chooses a random positive integer $k$ and produces the ciphertext $C_m$, which is a pair of points:
-$$C_m = \{C_1, C_2\} = \{kG, P_m + kP_B\}$$
+---
 
-#### Example Demonstration
-We use the numerical example provided in the source.
+## ❓ Question:
+**Discuss the evolution of Big Data and highlight why traditional Business Intelligence (BI) is insufficient.**
 
-1.  **Global Parameters:**
-    *   Prime $q = 257$.
-    *   Curve $E_{257}(0, -4)$ (equivalent to $y^2 = x^3 - 4$).
-    *   Base point $G = (2, 2)$.
-    *   Bob’s Private Key $n_B = 101$.
-    *   Bob’s Public Key $P_B = 101 G = (197, 167)$.
+---
 
-2.  **Plaintext Point:** Alice encodes her message as the point $P_m = (112, 26)$.
+## 📘 Evolution of Big Data
 
-3.  **Alice Encrypts:**
-    *   Alice chooses random integer $k = 41$.
-    *   **Cipherpoint $C_1$ (Clue):** $C_1 = kG = 41(2, 2) = (136, 128)$.
-    *   **Masking Key:** Alice calculates $kP_B = 41(197, 167) = (68, 84)$.
-    *   **Cipherpoint $C_2$ (Masked Message):** $C_2 = P_m + kP_B = (112, 26) + (68, 84) = (246, 174)$.
+The concept of **Big Data** has evolved over several decades as data generation, storage, and analysis technologies have advanced.
 
-4.  **Ciphertext Generated:** Alice sends the pair of points (cipherpoint) $C_m = \{(136, 128), (246, 174)\}$ to Bob.
+### **1. 1960s–1970s: Early Data Management**
+- The first **data centers** and **relational databases (RDBMS)** were developed.  
+- Data was stored in structured form using **rows and columns**.  
+- Processing was **manual and batch-based**.  
+- Example: IBM’s development of the first database management systems.
 
-#### Decryption (Demonstration)
-Bob decrypts $C_m$ by multiplying $C_1$ by his private key $n_B$ and subtracting the result from $C_2$:
+### **2. 1980s–1990s: Business Intelligence (BI) Era**
+- The focus shifted to **data analysis** for decision-making.  
+- **Data Warehouses** and **OLAP (Online Analytical Processing)** systems were introduced.  
+- BI tools helped businesses analyze **historical and structured data**.  
+- Limitations began to appear as **data volumes grew rapidly**.
 
-$$P_m = C_2 - n_B C_1$$
-$$P_m = (P_m + kP_B) - n_B(kG)$$
-$$P_m = P_m + k(n_B G) - n_B(kG) = P_m$$
+### **3. 2000s: Rise of the Internet and Social Media**
+- Massive growth in data due to **emails, videos, web pages, and social media platforms**.  
+- In 2005, **Hadoop** and **MapReduce** were introduced by Apache to store and process large-scale unstructured data.  
+- The term **“Big Data”** became popular as organizations realized the potential of analyzing large, diverse datasets.
 
-Calculation:
-*   $n_B C_1 = 101(136, 128) = (68, 84)$.
-*   $P_m = (246, 174) - (68, 84) = (112, 26)$.
-The original message point $P_m = (112, 26)$ is recovered.
+### **4. 2010s: Cloud Computing and IoT Expansion**
+- Emergence of **Cloud platforms** like AWS, Google Cloud, and Azure enabled scalable storage and analytics.  
+- **Internet of Things (IoT)** began generating continuous streams of sensor data.  
+- **Machine learning** and **real-time analytics** became integral to business operations.
 
-***
+### **5. 2020s–Present: AI and Real-Time Big Data Analytics**
+- Modern Big Data integrates **AI, ML, and Deep Learning** for predictive and prescriptive analytics.  
+- Data is processed in **real-time** using frameworks like **Apache Spark** and **Kafka**.  
+- The focus has shifted from “what happened” to **“what will happen”** and **“what should we do next.”**
 
-### 18. Explain RSA algorithm with example (10 marks)
+---
 
-The **RSA algorithm** (Rivest-Shamir-Adleman) is the most widely accepted and implemented general-purpose public-key encryption scheme. It is a cipher where plaintext $M$ and ciphertext $C$ are integers operating modulo a number $n$. RSA is based on the mathematical difficulty of factoring large composite numbers.
+## ⚙️ Why Traditional BI is Insufficient
 
-#### Algorithm Description
-Encryption and decryption rely on modular exponentiation:
-*   **Encryption:** $C = M^e \mod n$
-*   **Decryption:** $M = C^d \mod n$
+Traditional **Business Intelligence (BI)** tools were designed for structured, small-scale, and historical data analysis. However, they face limitations when dealing with **Big Data**.
 
-The public key is $PU = \{e, n\}$, and the private key is $PR = \{d, n\}$.
+| **Aspect** | **Traditional BI** | **Big Data Analytics** |
+|-------------|--------------------|-------------------------|
+| **Data Type** | Structured data only | Structured, Semi-structured, Unstructured |
+| **Data Volume** | Limited storage (GBs–TBs) | Handles massive data (PBs–EBs) |
+| **Data Velocity** | Batch processing | Real-time and streaming data processing |
+| **Data Variety** | Tables and spreadsheets | Text, images, videos, logs, sensor data |
+| **Scalability** | Vertical (limited to one server) | Horizontal (distributed across clusters) |
+| **Technology Used** | Data warehouses, OLAP | Hadoop, Spark, NoSQL databases |
+| **Processing Cost** | High (requires specialized hardware) | Low (commodity hardware and cloud) |
+| **Insight Type** | Descriptive (what happened) | Predictive & Prescriptive (what will happen, what to do) |
 
-#### Key Generation (Alice)
-The process for generating the keys is:
-1.  **Choose two large prime numbers $p$ and $q$** (private, chosen).
-2.  **Calculate $n = p \times q$** (public, modulus).
-3.  **Calculate $\phi(n) = (p-1)(q-1)$**.
-4.  **Select the encryption exponent $e$** (public) such that $1 < e < \phi(n)$ and $\gcd(\phi(n), e) = 1$.
-5.  **Calculate the decryption exponent $d$** (private) such that $d \equiv e^{-1} \pmod{\phi(n)}$, meaning $d \times e = 1 + k \times \phi(n)$ for some integer $k$.
+### **Key Reasons for BI Insufficiency**
+1. **Inability to Handle Unstructured Data** – BI tools can’t process data like images, videos, and text.  
+2. **Scalability Limits** – Traditional BI relies on centralized servers, making it hard to scale with growing data.  
+3. **Slow Processing Speed** – BI works in batch mode and cannot provide real-time insights.  
+4. **High Cost** – Requires expensive storage and specialized hardware.  
+5. **Lack of Predictive Capabilities** – BI focuses on historical trends rather than forecasting future outcomes.  
 
-#### Example
-We use small prime values from the source material for simplicity:
+---
 
-1.  **Choose primes:** $p=3, q=7$.
-2.  **Calculate modulus:** $n = 3 \times 7 = 21$.
-3.  **Calculate $\phi(n)$:** $\phi(n) = (3-1)(7-1) = 12$.
-4.  **Select public exponent:** $e=5$. $\gcd(5, 12) = 1$.
-5.  **Calculate private exponent:** $d=5$, since $5 \times 5 = 25 \equiv 1 \pmod{12}$.
 
-*   **Public Key $PU$: $\{5, 21\}$**
-*   **Private Key $PR$: $\{5, 21\}$**
+# 6. Compare Traditional Business Intelligence vs Big Data Analytics with Suitable Examples
 
-**Encryption (Plaintext $M=10$)**:
-$$C = M^e \mod n = 10^5 \mod 21$$
-$$C = 19$$
+---
 
-**Decryption (Ciphertext $C=19$)**:
-$$M = C^d \mod n = 19^5 \mod 21$$
-Since $19 \equiv -2 \pmod{21}$, $19^5 \equiv (-2)^5 = -32 \pmod{21}$.
-$$-32 \equiv 10 \pmod{21}$$
-$$M = 10$$
+## ❓ Question:
+**Compare Traditional Business Intelligence (BI) vs Big Data Analytics with suitable examples.**
 
-***
+---
 
-### 19. Differentiate between stream and block cipher (10 marks)
+## 📊 Comparison Between Traditional BI and Big Data Analytics
 
-Symmetric ciphers are categorized based on how they process the input plaintext.
+| **Aspect** | **Traditional Business Intelligence (BI)** | **Big Data Analytics** |
+|-------------|--------------------------------------------|-------------------------|
+| **Data Type** | Structured data (rows and columns) | Structured, Semi-structured, and Unstructured data |
+| **Data Sources** | Internal enterprise databases and spreadsheets | Multiple sources — social media, IoT sensors, web logs, videos, images, cloud data |
+| **Data Volume** | Handles limited data (in gigabytes or terabytes) | Handles massive data (in petabytes or exabytes) |
+| **Data Velocity** | Batch processing of static historical data | Real-time or near-real-time processing of continuous data streams |
+| **Data Variety** | Limited to tabular data | Includes text, images, audio, video, logs, and sensor data |
+| **Technology Used** | RDBMS, Data Warehouses, OLAP | Hadoop, Apache Spark, NoSQL databases, Cloud platforms |
+| **Analytical Type** | Descriptive Analytics (What happened?) | Predictive and Prescriptive Analytics (What could happen? What should be done?) |
+| **Scalability** | Vertically scalable (add better hardware) | Horizontally scalable (add more machines/nodes) |
+| **Storage** | Centralized storage system | Distributed storage system (e.g., HDFS) |
+| **Processing Framework** | Uses ETL (Extract, Transform, Load) and SQL-based queries | Uses distributed frameworks like MapReduce and Spark |
+| **Performance** | Slower when handling large data | High performance using parallel and distributed processing |
+| **Real-Time Analysis** | Not supported | Supported through streaming tools like Spark Streaming, Kafka |
+| **Cost** | High (requires specialized hardware and licenses) | Cost-effective (uses commodity hardware and open-source tools) |
+| **Examples** | Tableau, Power BI, SAP BusinessObjects | Hadoop, Apache Spark, MongoDB, Google BigQuery, AWS Redshift |
+| **Use Case Example** | Generating monthly financial reports for a company | Real-time fraud detection in online transactions |
 
-| Feature | Block Cipher | Stream Cipher |
-| :--- | :--- | :--- |
-| **Processing Unit** | Processes the input as a **block** of elements (e.g., 64 or 128 bits). | Processes input elements **continuously**, one bit or one byte at a time. |
-| **Output** | Produces a ciphertext block of equal length for each input block. | Produces output one element at a time, synchronized with the input stream. |
-| **Operation** | Uses the encryption algorithm repeatedly on fixed-size blocks (e.g., AES, DES). | Combines a **pseudorandom key stream** bit-by-bit or byte-by-byte with the plaintext using XOR. |
-| **Structure** | Relies heavily on complex structures like the Feistel structure or Substitution-Permutation Networks (SPN). | Usually relies on a function that generates an unpredictable keystream based on a secret key (e.g., RC4). |
-| **Padding** | Often requires padding the last block to reach the fixed block size. | Eliminates the need to pad a message. |
-| **Error Propagation** | In modes like Electronic Codebook (ECB), an error in one block affects only that block. | In modes like Cipher Feedback (CFB), an error can propagate for multiple segments. |
-| **Primary Usage** | Most widely used in network-based symmetric applications. Can also simulate stream ciphers using modes like CFB or CTR. | Ideal for continuous communication (e.g., encrypted digital voice streams). |
+---
 
-***
+## 📘 Example Illustration
 
-### 20. Define and explain security attacks (10 marks)
+### **Traditional BI Example**
+A retail company uses **Tableau** and **SQL-based data warehouses** to analyze last quarter’s sales.  
+They generate reports showing **which regions performed well** and **compare product sales trends** over time.
 
-A **security attack** is any action that compromises the security of information. Attacks are categorized based on the OSI security architecture. They are generally classified as either passive or active.
+### **Big Data Analytics Example**
+The same retail company uses **Hadoop** and **Spark** to analyze data from:  
+- **Social media feedback**,  
+- **Customer purchase history**, and  
+- **IoT sensors in stores**.  
 
-#### I. Passive Attacks
-Passive attacks attempt to gather or exploit information from system usage, but they **do not affect system resources**. They are typically difficult to detect because they involve non-disruptive monitoring.
+This allows them to:  
+- Predict **future customer demand**,  
+- Offer **personalized recommendations**, and  
+- Optimize **real-time inventory management**.
 
-1.  **Release of Message Contents (Eavesdropping):** An opponent intercepts and reads the content of transmissions. Encryption (confidentiality) is the defense against this type of attack.
-2.  **Traffic Analysis:** Even if message contents are protected by encryption, an attacker can observe the timing, frequency, length, and identities of communicating parties to gather information or infer the nature of the communication.
+---
 
-#### II. Active Attacks
-Active attacks attempt to **alter system resources or affect their operation**. They involve some modification of the data stream or the creation of a false stream. They are harder to execute but easier to detect and mitigate.
+## 🧩 Summary
 
-1.  **Masquerade:** An attacker pretends to be a legitimate user or entity. This attack often includes other attacks (like replay) to gain unauthorized access. For example, a user F intercepts a message and forwards it to computer E claiming it came from D.
-2.  **Replay:** A passive capture of a data unit and its subsequent retransmission to produce an unauthorized effect. For instance, capturing a login session request and re-sending it later.
-3.  **Modification of Messages:** A genuine message is intercepted and its contents are altered (e.g., changing data values, delaying or reordering the transmission sequence) before forwarding it to the recipient.
-4.  **Denial of Service (DoS):** Prevents or inhibits the normal use or management of communication facilities or system resources. This can involve overwhelming a system (e.g., flooding a network with messages) or disrupting specific services.
+Traditional BI focuses on analyzing **structured, historical data** for reporting and performance tracking,  
+while **Big Data Analytics** enables the analysis of **massive, diverse, and real-time data** for **prediction and strategic decision-making**.
 
-***
+---
 
-### 21. Explain hash function with symmetric and Asymmetric give example. (10 marks)
 
-A **hash function** $H$ takes a variable-length data block $M$ as input and produces a fixed-size, seemingly random **hash value** $h = H(M)$. The primary purpose of a cryptographic hash function is data integrity: any change to the input message results, with high probability, in a change to the output hash value.
+# 7. Explain Hadoop Ecosystem. Illustrate with Example the Core Components and Features of Hadoop
 
-#### 1. Hash Function with Symmetric Encryption (Message Authentication)
-When used with symmetric encryption, the hash function provides **message authentication** (assuring the message source and integrity). This relies on a secret key $K$ shared by the sender (A) and receiver (B).
+---
 
-*   **Mechanism (Authentication Only):** Only the hash code is encrypted.
-    *   $A \to B$: $M || E(K, H(M))$.
-    *   A computes $H(M)$ and encrypts it using $K$. A sends the plaintext message $M$ concatenated with the encrypted hash value.
-    *   B decrypts the hash using $K$ and compares it to a newly calculated hash of $M$. If they match, the message is authenticated, as only A (and B) possess $K$.
+## ❓ Question:
+**Explain the Hadoop ecosystem. Illustrate with example the core components and features of Hadoop.**
 
-*   **Mechanism (Confidentiality and Authentication):** The entire message plus the hash code are encrypted.
-    *   $A \to B$: $E(K, [M || H(M)])$.
-    *   This provides confidentiality because the whole message is encrypted with $K$, and authentication because the hash code is protected within the encryption.
+---
 
-#### 2. Hash Function with Asymmetric Encryption (Digital Signatures)
-When used with asymmetric encryption, the hash function enables **digital signatures**, providing authentication and nonrepudiation.
+## 📘 Hadoop Ecosystem Overview
 
-*   **Mechanism (Digital Signature):** The hash code is encrypted using the sender’s private key $PR_A$.
-    *   $A \to B$: $M || E(PR_A, H(M))$.
-    *   **Signing:** A generates $H(M)$ and encrypts it with $PR_A$.
-    *   **Verification:** B uses A's public key $PU_A$ to decrypt the hash value. B independently computes the hash of the received message $M'$ to get $H(M')$ and compares it to the decrypted hash.
-    *   **Authentication:** If they match, the signature is valid. Since only A possesses $PR_A$, this proves that A must have created the signature.
+The **Hadoop Ecosystem** is a **collection of open-source tools and frameworks** that work together to **store, process, and analyze large datasets** in a **distributed computing environment**.
+
+It was developed by the **Apache Software Foundation** and is written in **Java**.  
+Hadoop enables the processing of massive amounts of data by distributing the workload across multiple, low-cost machines in a cluster.
+
+---
+
+## ⚙️ Core Components of Hadoop
+
+The Hadoop ecosystem consists of **four major core components**:
+
+---
+
+### 🔹 1. Hadoop Common
+- A set of **common utilities, libraries, and Java APIs** that support other Hadoop modules.  
+- Provides the **necessary environment** and **file system abstraction** to interact with HDFS and MapReduce.
+
+**Example:**  
+When running a MapReduce job, Hadoop Common provides the required JAR files and configuration tools to execute the program.
+
+---
+
+### 🔹 2. Hadoop Distributed File System (HDFS)
+- A **distributed storage system** that stores large datasets across multiple nodes in a cluster.  
+- Splits large files into **fixed-size blocks (64MB or 128MB)** and distributes them across several machines.  
+- Each block is **replicated (default 3 copies)** to ensure **fault tolerance** and **data reliability**.
+
+**Key Features:**
+- High **fault tolerance** (data remains safe even if a node fails).  
+- **Scalable** — can easily add more storage by adding nodes.  
+- **Streaming data access** — designed for high-throughput reading and writing.  
+
+**Example:**  
+If a 1 GB file is uploaded, it’s divided into eight 128 MB blocks and distributed across different nodes for parallel access.
+
+---
+
+### 🔹 3. Hadoop MapReduce
+- A **programming model** and **processing engine** used to process large datasets in parallel.  
+- Divides a task into smaller sub-tasks (Map) and combines the results (Reduce).  
+- Uses cluster computing to process data efficiently.
+
+**MapReduce Workflow Example:**  
+To count the number of words in a document:
+1. **Map Phase:** Splits text into words and assigns each word a count of 1.  
+2. **Shuffle & Sort Phase:** Groups identical words together.  
+3. **Reduce Phase:** Adds up the counts for each word.
+
+**Output:**  
+A list of words with their frequency, e.g.  
+`data → 12`, `hadoop → 8`, `analytics → 5`
+
+---
+
+### 🔹 4. Hadoop YARN (Yet Another Resource Negotiator)
+- Manages and allocates **resources (CPU, memory, network)** across the cluster.  
+- Acts as the **resource manager and job scheduler** for Hadoop applications.  
+- Allows **multiple applications** to run simultaneously on the same cluster.
+
+**YARN Components:**
+- **ResourceManager:** Allocates resources among all applications.  
+- **NodeManager:** Monitors resource usage on each node.  
+- **ApplicationMaster:** Manages the execution of a single job.  
+
+---
+
+## 🌐 Hadoop Ecosystem Components
+
+Beyond the core components, the Hadoop ecosystem includes several supporting tools for data ingestion, analysis, and visualization:
+
+| **Category** | **Component** | **Description** |
+|---------------|----------------|----------------|
+| **Data Storage** | HDFS | Distributed file storage system |
+| **Data Processing** | MapReduce, Spark | Parallel data processing frameworks |
+| **Resource Management** | YARN | Allocates and manages cluster resources |
+| **Data Ingestion** | Sqoop, Flume | Tools to import/export data from RDBMS or logs |
+| **Data Querying** | Hive, Pig, Impala | Query and analysis tools (Hive uses SQL-like language) |
+| **Coordination** | Zookeeper, Oozie | Job scheduling and synchronization |
+| **Data Visualization** | Hue | Web-based interface for Hadoop ecosystem |
+
+---
+
+## 🧠 Example Illustration
+
+**Scenario:**  
+A retail company wants to analyze customer purchasing data (over 10 TB) to understand product trends.
+
+**Steps using Hadoop:**
+1. **HDFS** stores the customer data across multiple nodes.  
+2. **MapReduce** processes this data to find total sales by product category.  
+3. **YARN** manages cluster resources and schedules the MapReduce job.  
+4. **Hive** allows analysts to query results using SQL-like commands.  
+5. **Pig** performs data transformations and summarizations.
+
+---
+
+## 🔑 Key Features of Hadoop
+
+| **Feature** | **Description** |
+|--------------|-----------------|
+| **Open Source** | Free and maintained by the Apache community. |
+| **Scalability** | Can scale horizontally by adding more nodes. |
+| **Fault Tolerance** | Automatically replicates data to prevent loss. |
+| **Cost-Effective** | Uses commodity (low-cost) hardware. |
+| **High Throughput** | Supports parallel processing for faster execution. |
+| **Data Locality** | Moves computation to where data is stored, reducing network traffic. |
+| **Support for Various Data Types** | Handles structured, semi-structured, and unstructured data. |
+
+---
+
+## 📘 Summary Example
+
+**Example Use Case:**  
+- **Company:** Netflix  
+- **Application:** Uses the Hadoop ecosystem to store and process terabytes of user data to recommend movies and shows using real-time analytics.
+
+---
+
+
+
+# 8. Explain the Process of Data Processing with Hadoop Using MapReduce
+
+---
+
+## ❓ Question:
+**Explain the process of data processing with Hadoop using MapReduce.**
+
+---
+
+## 📘 Introduction
+
+**MapReduce** is the core **data processing framework** of the **Hadoop ecosystem**.  
+It enables the processing of **massive datasets** across a distributed cluster of computers in a **parallel, scalable, and fault-tolerant** manner.
+
+The MapReduce model divides data processing into two main stages — **Map** and **Reduce** — allowing large data to be analyzed efficiently across multiple nodes.
+
+---
+
+## ⚙️ Components of MapReduce
+
+1. **Mapper**  
+   - Takes the input data and transforms it into **key-value pairs**.  
+   - Each mapper processes a portion of the data (block) stored in HDFS.  
+   - Output is a set of **intermediate key-value pairs**.
+
+2. **Reducer**  
+   - Takes intermediate key-value pairs as input.  
+   - Groups data based on keys and performs **aggregation or summarization**.  
+   - Produces the **final output** in the form of key-value pairs.
+
+3. **Driver Program**  
+   - Controls the entire execution of the MapReduce job.  
+   - Specifies the Mapper and Reducer classes, input and output paths, and job configuration.
+
+---
+
+## 🔄 MapReduce Data Processing Flow
+
+The **MapReduce data processing** workflow follows five key stages:
+
+---
+
+### 🔹 1. Input Data Splitting
+- Input data stored in **HDFS** is divided into **fixed-size blocks** (commonly 128 MB or 256 MB).  
+- Each block is processed by a separate **Mapper** task.  
+- Example:  
+  A 512 MB file is divided into 4 blocks → 4 Mapper tasks.
+
+---
+
+### 🔹 2. Mapping Phase
+- Each mapper processes its data block line by line.  
+- It generates **intermediate key-value pairs** as output.  
+
+**Example:**  
+For a word count program, if the input text is:
+
+Hadoop is powerful Hadoop is reliable
+
+The mapper output is:
+
+(Hadoop, 1) (is, 1) (powerful, 1) (Hadoop, 1) (is, 1) (reliable, 1)
+
+---
+
+### 🔹 3. Shuffling and Sorting Phase
+- Hadoop automatically **groups and sorts** all intermediate key-value pairs by key.  
+- This ensures that all values for the same key are sent to the same reducer.  
+
+**Example:**  
+After shuffling and sorting:
+
+(Hadoop, [1, 1]) (is, [1, 1]) (powerful, [1]) (reliable, [1])
+
+---
+
+### 🔹 4. Reducing Phase
+- Each reducer processes one unique key and its list of values.  
+- Performs **aggregation or summarization** on the values.  
+
+**Example:**  
+Reducer output:
+
+(Hadoop, 2) (is, 2) (powerful, 1) (reliable, 1)
+
+---
+
+### 🔹 5. Output Phase
+- The **final results** are written back to **HDFS**.  
+- Each reducer writes its output to a separate file, typically named `part-00000`, `part-00001`, etc.
+
+**Example Output File:**
+
+Hadoop 2 is 2 powerful 1 reliable 1
+
+---
+
+## 🧩 Example: Word Count Using MapReduce
+
+### **Objective:**  
+Count the frequency of each word in a text document.
+
+| **Phase** | **Input** | **Output** |
+|------------|------------|------------|
+| **Map** | Text lines | (word, 1) |
+| **Shuffle & Sort** | Intermediate pairs | (word, [1, 1, 1...]) |
+| **Reduce** | Grouped pairs | (word, total count) |
+
+**Final Output Example:**
+
+Big 3 Data 5 Analytics 2 Hadoop 4
+
+---
+
+## ⚙️ Internal Working of MapReduce
+
+1. **InputFormat:**  
+   - Splits data into logical input splits.  
+   - Assigns each split to a mapper.
+
+2. **RecordReader:**  
+   - Reads data and converts it into key-value pairs for the mapper.
+
+3. **Mapper Function:**  
+   - Processes input and generates intermediate key-value pairs.
+
+4. **Combiner (Optional):**  
+   - Performs local aggregation before shuffling to reduce data transfer.
+
+5. **Partitioner:**  
+   - Determines which reducer will process a given key.
+
+6. **Reducer Function:**  
+   - Aggregates data from all mappers and generates final results.
+
+7. **OutputFormat:**  
+   - Writes reducer output to HDFS.
+
+---
+
+## 🧠 Key Features of MapReduce
+
+| **Feature** | **Description** |
+|--------------|-----------------|
+| **Parallel Processing** | Tasks are executed concurrently across cluster nodes. |
+| **Fault Tolerance** | Failed tasks are automatically re-executed on other nodes. |
+| **Scalability** | Easily handles growing data volumes by adding more nodes. |
+| **Data Locality** | Moves computation close to the data to minimize network traffic. |
+| **Automation** | Automatically handles scheduling, monitoring, and error recovery. |
+| **Cost-Effective** | Uses commodity hardware for large-scale data processing. |
+
+---
+
+## ⚡ Example Use Case
+
+**Scenario:**  
+An e-commerce company wants to analyze **customer clickstream data** (hundreds of GBs daily).
+
+**How Hadoop MapReduce Works Here:**
+1. **Mapper:** Reads web logs and emits `(product_id, 1)` for every product view.  
+2. **Shuffling:** Groups all identical product IDs together.  
+3. **Reducer:** Counts the total views for each product.  
+4. **Output:** Produces the total product views for the day, stored in HDFS.
+
+**Result Example:**
+
+Product_101  15230 Product_202  18455 Product_303  9320
+
+---
+
+# 9. HDFS Commands to Perform Basic Operations
+
+---
+
+## ❓ Question:
+**Give HDFS commands to perform the following operations:**  
+a) List directories and files at the root of HDFS  
+b) Create a directory “sample” in HDFS  
+c) Copy a file from the local filesystem to HDFS  
+d) Display the contents of an HDFS file on the console  
+
+---
+
+## 📘 a) List Directories and Files at Root of HDFS
+
+**Command:**
+```bash
+hdfs dfs -ls /
+
+Explanation:
+
+hdfs dfs — Invokes the Hadoop File System shell.
+
+-ls — Lists files and directories.
+
+/ — Refers to the root directory in HDFS.
+
+
+Example Output:
+
+Found 2 items
+drwxr-xr-x   - hadoop hdfs  0  2025-10-09  /user
+drwxr-xr-x   - hadoop hdfs  0  2025-10-09  /data
+
+
+---
+
+📘 b) Create a Directory “sample” in HDFS
+
+Command:
+
+hdfs dfs -mkdir /sample
+
+Explanation:
+
+Creates a new directory named sample in the HDFS root.
+
+You can also create nested directories using:
+
+
+hdfs dfs -mkdir -p /user/hadoop/sample
+
+
+---
+
+📘 c) Copy a File from Local Filesystem to HDFS
+
+Command:
+
+hdfs dfs -copyFromLocal /home/user/data.txt /sample/
+
+Explanation:
+
+Copies the file data.txt from the local filesystem to the HDFS directory /sample/.
+
+Alternate command:
+
+
+hdfs dfs -put /home/user/data.txt /sample/
+
+Example Output:
+
+File copied successfully from local to HDFS directory /sample/
+
+
+---
+
+📘 d) Display the Contents of an HDFS File on Console
+
+Command:
+
+hdfs dfs -cat /sample/data.txt
+
+Explanation:
+
+Displays the contents of the file data.txt stored in HDFS directly on the console screen.
+
+You can also use:
+
+
+hdfs dfs -tail /sample/data.txt
+
+to view only the last few lines of the file.
+
+Example Output:
+
+Hadoop is a framework for distributed data processing.
+MapReduce enables parallel processing.
+
+
+---
+
+🧩 Summary of Commands
+
+Operation	Command	Description
+
+List root directory	hdfs dfs -ls /	Lists files and directories in HDFS root
+Create directory	hdfs dfs -mkdir /sample	Creates a new directory named “sample”
+Copy file to HDFS	hdfs dfs -copyFromLocal /path/to/local/file /sample/	Uploads a local file to HDFS
+Display file contents	hdfs dfs -cat /sample/data.txt	Displays the contents of an HDFS file
+
+
+
+---
+# 10. What is Hadoop? Explain why Hadoop emerged and its advantages over RDBMS.
+
+**Q:** What is Hadoop?  
+
+**A:** Hadoop is an open-source framework for storing and processing large volumes of data in a distributed computing environment. It allows for the scalable, reliable, and efficient processing of big data across clusters of computers using simple programming models.
+
+**Q:** Why did Hadoop emerge?  
+
+**A:** Hadoop emerged to handle the limitations of traditional RDBMS in dealing with:  
+- **Volume:** Huge amounts of structured, semi-structured, and unstructured data.  
+- **Variety:** Different types of data like text, images, videos, logs, etc.  
+- **Velocity:** Fast data generation requiring real-time or near-real-time processing.  
+- **Cost-effectiveness:** Using commodity hardware for storage and processing large datasets.  
+
+**Q:** Advantages of Hadoop over RDBMS  
+
+1. **Scalability:** Can scale horizontally by adding more nodes to the cluster.  
+2. **Cost-effective:** Uses commodity hardware rather than expensive high-end servers.  
+3. **Fault tolerance:** Data is replicated across multiple nodes, ensuring reliability.  
+4. **Flexibility:** Can store and process structured, semi-structured, and unstructured data.  
+5. **High throughput:** Optimized for batch processing of massive datasets.  
+6. **Distributed computing:** Processes data in parallel across multiple nodes, reducing processing time.
+
+
+---
+
+# 11. Describe the Hadoop Distributed File System (HDFS) architecture and its significance
+
+**Q:** What is HDFS architecture?  
+
+**A:** HDFS (Hadoop Distributed File System) is a distributed file system designed to store large datasets reliably across multiple machines. Its architecture consists of the following main components:  
+
+1. **NameNode:**  
+   - Acts as the master node.  
+   - Manages the filesystem namespace and metadata (file locations, directory structure).  
+   - Keeps track of which blocks are stored on which DataNodes.  
+
+2. **DataNode:**  
+   - Acts as the worker/slave nodes.  
+   - Stores actual data blocks.  
+   - Handles read/write requests from clients.  
+   - Reports block information periodically to NameNode.  
+
+3. **Secondary NameNode:**  
+   - Helps in checkpointing and reducing the load on the primary NameNode.  
+   - Not a backup but assists in metadata management.  
+
+4. **Blocks:**  
+   - Files are split into fixed-size blocks (default 128 MB) and stored across DataNodes.  
+   - Each block is replicated (default 3 copies) to ensure fault tolerance.  
+
+**Q:** Significance of HDFS  
+
+1. **Fault Tolerance:** Automatic replication of data ensures reliability even if nodes fail.  
+2. **High Throughput:** Optimized for large files and batch processing rather than low-latency access.  
+3. **Scalability:** Can easily scale to thousands of nodes to store petabytes of data.  
+4. **Cost-effective:** Uses commodity hardware to store huge volumes of data.  
+5. **Data Locality:** Brings computation to the data, reducing network congestion and improving processing speed.  
+6. **Flexibility:** Can store structured, semi-structured, and unstructured data.
+
+---
+
+
+# 12. Demonstrate the following Hadoop ecosystem tools with examples
+
+**Q:** a) What is Oozie?  
+
+**A:** Oozie is a workflow scheduler system to manage Hadoop jobs. It allows users to define a sequence of actions (MapReduce, Pig, Hive, etc.) as workflows.  
+
+**Example:**  
+- Workflow to run a daily MapReduce job followed by a Hive query:  
+```xml
+<workflow-app name="daily-workflow" xmlns="uri:oozie:workflow:0.5">
+    <start to="mapreduce-node"/>
+    <action name="mapreduce-node">
+        <map-reduce>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                    <name>mapred.input.dir</name>
+                    <value>/input/data</value>
+                </property>
+                <property>
+                    <name>mapred.output.dir</name>
+                    <value>/output/data</value>
+                </property>
+            </configuration>
+        </map-reduce>
+        <ok to="hive-node"/>
+        <error to="fail"/>
+    </action>
+    <action name="hive-node">
+        <hive xmlns="uri:oozie:hive-action:0.5">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <script>query.hql</script>
+        </hive>
+        <ok to="end"/>
+        <error to="fail"/>
+    </action>
+    <kill name="fail">
+        <message>Workflow failed</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
+
+
+---
+
+Q: b) What is Sqoop?
+
+A: Sqoop is a tool to import/export data between Hadoop and relational databases.
+
+Example:
+
+Import a MySQL table employees into HDFS:
+
+
+sqoop import \
+--connect jdbc:mysql://localhost:3306/company \
+--username root --password password \
+--table employees \
+--target-dir /hdfs/employees_data
+
+
+---
+
+Q: c) What is Ambari?
+
+A: Ambari is a web-based tool to provision, manage, and monitor Hadoop clusters.
+
+Example Use Case:
+
+Using Ambari dashboard:
+
+1. Install Hadoop cluster on multiple nodes.
+
+
+2. Monitor CPU, memory, HDFS usage, and service health.
+
+
+3. Start/stop Hadoop services like HDFS, YARN, Hive, etc.
+
+
+
+
+
+---
+
+Q: d) What is Pig?
+
+A: Pig is a high-level platform for creating MapReduce programs using a scripting language called Pig Latin.
+
+Example:
+
+Pig script to count word frequency from a text file:
+
+
+-- Load input data
+input = LOAD '/input/textfile.txt' USING PigStorage(' ') AS (word:chararray);
+
+-- Group by word
+grouped = GROUP input BY word;
+
+-- Count occurrences
+word_count = FOREACH grouped GENERATE group, COUNT(input);
+
+-- Store results in HDFS
+STORE word_count INTO '/output/wordcount' USING PigStorage(',');
+
+
+
+
+
+
+
+
