@@ -873,7 +873,6 @@ d) Display the contents of an HDFS file on the console
 ## 📘 a) List Directories and Files at Root of HDFS
 
 **Command:**
-```bash
 hdfs dfs -ls /
 
 Explanation:
